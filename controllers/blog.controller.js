@@ -21,7 +21,9 @@ const getBlogById = async (req, res) => {
 
 const createBlog = async (req, res) => {
   try {
-    const blog = await Blog.create(req.body);
+    const { title, content } = req.body;
+    const image = req.file ? req.file.path : '';
+    const blog = await Blog.create({title, content, image});
     res.status(201).json(blog);
   } catch (error) {
     res.status(500).json({ message: error.message });
