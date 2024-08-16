@@ -22,7 +22,7 @@ const getBlogById = async (req, res) => {
 const createBlog = async (req, res) => {
   try {
     const blog = await Blog.create(req.body);
-    res.status(200).json(blog);
+    res.status(201).json(blog);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -36,7 +36,7 @@ const updateBlogById = async (req, res) => {
 
     // if it doesn't exit, return not found
     if (!blog) {
-      return res.status(404).json({ message: error.message });
+      return res.status(404).json({ message: "Blog not found" });
     }
 
     // recheck if it has been updated in the DB
@@ -54,7 +54,7 @@ const deleteBlogById = async (req, res) => {
     const blog = await Blog.findByIdAndDelete(id);
 
     if (!blog) {
-      return res.status(404).json({ message: error.message });
+      return res.status(404).json({ message: "Blog not found" });
     }
 
     res.status(200).json({ message: "Blog Deleted Successfully!" });

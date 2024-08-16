@@ -4,7 +4,7 @@ const BlogSchema = mongoose.Schema(
     {
         title: {
             type: String,
-            required: true,
+            required: [true, "What's the title?"],
         },
         content: {
             type: String,
@@ -12,7 +12,7 @@ const BlogSchema = mongoose.Schema(
         },
         image: {
             type: String,
-            required: false,
+            required: true,
         }
     },
     {
