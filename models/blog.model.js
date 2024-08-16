@@ -8,11 +8,11 @@ const BlogSchema = mongoose.Schema(
         },
         content: {
             type: String,
-            required: true,
+            required: [true, "Content is required."],
         },
         image: {
             type: String,
-            required: true,
+            required: [true, "Image is required."],
         }
     },
     {
