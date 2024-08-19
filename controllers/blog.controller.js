@@ -38,11 +38,12 @@ const createBlog = async (req, res) => {
 
     // correct format?
     const title = Array.isArray(fields.title) ? fields.title[0] : fields.title;
+    const description = Array.isArray(fields.description) ? fields.description[0] : fields.description;
     const content = Array.isArray(fields.content) ? fields.content[0] : fields.content;
     const imageFile = files.image;
 
     //  title, content, and image present?
-    if (!title || !content || !imageFile || !imageFile[0]) {
+    if (!title || !description || !content || !imageFile || !imageFile[0]) {
       return res.status(400).json({ message: "Title, content, and image are required." });
     }
 
@@ -52,7 +53,7 @@ const createBlog = async (req, res) => {
       const imageUrl = result.secure_url;
 
       // push new blog post to the db with title, content, and image.
-      const blog = await Blog.create({ title, content, image: imageUrl });
+      const blog = await Blog.create({ title, description, content, image: imageUrl });
       res.status(201).json(blog);
     } catch (error) {
       res.status(500).json({ message: error.message });

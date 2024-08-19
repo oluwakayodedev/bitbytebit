@@ -15,7 +15,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use("/api/blogs", blogRoute);
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html')); // Serve HTML form
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // connect to DB and run server

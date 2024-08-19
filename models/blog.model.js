@@ -6,6 +6,10 @@ const BlogSchema = mongoose.Schema(
             type: String,
             required: [true, "What's the title?"],
         },
+        description:{
+            type: String,
+            required: [true, "Write a short Description"]
+        },
         content: {
             type: String,
             required: [true, "Content is required."],
