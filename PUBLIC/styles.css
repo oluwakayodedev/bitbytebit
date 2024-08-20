@@ -1,0 +1,169 @@
+:root {
+  --primary: #a7d406;
+  --secondary: #fffef0;
+  --dark: #000;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth !important;
+}
+
+body,
+html {
+  font-family: "Saira Semi Condensed", "Poppins", sans-serif;
+  background-color: var(--dark);
+  color: var(--secondary);
+}
+::-webkit-scrollbar {
+  background-color: #101010;
+  width: 4px;
+  height: 3px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--primary) !important;
+  cursor: pointer;
+}
+::-moz-range-track {
+  background-color: #101010;
+}
+body {
+  padding-top: 80px;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--dark);
+  border-bottom: 2px solid #303331;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo h2 {
+  color: var(--secondary);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.nav-icon {
+  color: var(--secondary);
+  cursor: pointer;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.nav-icon:hover {
+  color: var(--primary);
+  transform: scale(0.96);
+}
+
+main {
+  padding: 10px 20px;
+}
+
+/* h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+p {
+  line-height: 1.6;
+} */
+
+main img {
+  max-width: 100%;
+  height: 50%;
+  display: block;
+  margin: 0 auto;
+  border-radius: 20px;
+}
+.image-container {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  overflow: hidden;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.image-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 20px;
+}
+
+.overlay-text {
+  font-family: "Poppins";
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  text-align: left;
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 100%;
+  margin: 10px;
+  backdrop-filter: blur(2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.overlay-text h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.overlay-text p {
+  font-size: 1.2rem;
+  line-height: 1.4;
+}
+
+#recent_blogs {
+  padding: 4% 0;
+}
+
+.recents {
+  font-family: "Poppins";
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.recents h2{
+  font-weight: 600;
+}
+.view-btn {
+  background-color: #a7d406;
+  color: rgb(8, 10, 88);
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-weight: 500;
+}

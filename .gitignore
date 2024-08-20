@@ -1,4 +1,3 @@
-PUBLIC/
 /middleware/uploads/
 node_modules/
 .env
