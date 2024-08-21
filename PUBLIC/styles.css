@@ -72,16 +72,6 @@ main {
   padding: 10px 20px;
 }
 
-/* h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--primary);
-}
-
-p {
-  line-height: 1.6;
-} */
-
 main img {
   max-width: 100%;
   height: 50%;
@@ -166,4 +156,78 @@ main img {
   border-radius: 5px;
   padding: 10px 15px;
   font-weight: 500;
+}
+
+#grid-container {
+  font-family: "Poppins";
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 15px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.grid-item {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+
+.grid-item:hover {
+  transform: translateY(-10px);
+}
+
+.grid-item img {
+  width: 100%;
+  height: 60% !important;
+  display: block;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.grid-item h3 {
+  margin: 10px 0 5px;
+  font-size: 1.2em;
+  font-weight: 600;
+  color: var(--secondary);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.grid-item p {
+  font-size: 0.9em;
+  color: var(--secondary);
+  display: -webkit-box;            /* flexible box */
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fixed-buttons {
+  position: fixed;
+  bottom: 10px;
+  right: 25px;
+  z-index: 99;
+}
+.floating-menu {
+  background-color: var(--primary);
+  height: 50px;
+  padding: 25%;
+  cursor: pointer;
+}
+
+footer{
+  border-top: 2px solid #303331;
+  margin: 2% 6%;
+}
+
+footer p{
+  padding-top: 10px;
+  text-align: center;
+  color: #303331;
+  font-size: small;
 }

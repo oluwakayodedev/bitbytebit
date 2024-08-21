@@ -33,23 +33,33 @@ fetch("https://blog-crud-xvln.onrender.com/api/blogs/")
       imageContainer.appendChild(overlay);
 
       document.querySelector("#largearea").appendChild(imageContainer);
+
+      return data;
     }
   })
   .then((data) => {
-    console.log(data)
-    if (data.length > 0) {
-      const imgUrl = data[0].image;
+    console.log(data);
 
-      const imageContainer = document.createElement("div");
-      imageContainer.classList.add("flexbox-item-1");
+    data.forEach((item) => {
+      //flexbox item
+      const gridItem = document.createElement("article");
+      gridItem.classList.add("grid-item");
 
       const imgElement = document.createElement("img");
-      imgElement.src = imgUrl;
-      imgElement.alt = "flexbox1";
+      imgElement.src = item.image;
+      imgElement.alt = item.title;
 
-      imageContainer.appendChild(imgElement);
+      const titleElement = document.createElement("h3");
+      titleElement.textContent = item.title;
 
-      document.querySelector("#flexbox-container").appendChild(imageContainer)
-    }
+      const descriptionElement = document.createElement("p");
+      descriptionElement.textContent = item.description;
+
+      gridItem.appendChild(imgElement);
+      gridItem.appendChild(titleElement);
+      gridItem.appendChild(descriptionElement);
+
+      document.querySelector("#grid-container").appendChild(gridItem);
+    });
   })
   .catch((error) => console.log(error));
