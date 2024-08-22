@@ -2,11 +2,14 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require('path');
+const bodyParser = require('body-parser');
 const blogRoute = require("./routes/blog.route.js");
+const authRoute = require("./routes/auth.route.js");
 const app = express();
 
 // middleware
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use((req, res, next) => {
@@ -18,6 +21,8 @@ app.use((req, res, next) => {
 
 // routes
 app.use("/api/blogs", blogRoute);
+app.use("/api/auth", authRoute)
+
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));

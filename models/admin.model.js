@@ -1,19 +1,25 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const AdminSchema = mongoose.Schema(
     {
         username: {
             type: String,
-            required: [true, "What's the title?"],
+            required: [true, "username?"],
             unique: true,
         },
         password:{
             type: String,
-            required: [true, "Write a short Description"]
+            required: [true, "password?"]
         }
     }
 );
 
-const Blog = mongoose.model("Blog", BlogSchema);
+// compare password
+AdminSchema.methods.comparePassword = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password);
+};
 
-module.exports = Blog;
+const Admin = mongoose.model("Admin", AdminSchema);
+
+module.exports = Admin;
