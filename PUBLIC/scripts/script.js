@@ -1,10 +1,9 @@
 fetch("https://blog-crud-xvln.onrender.com/api/blogs/")
   .then((res) => res.json())
   .then((data) => {
-    console.log(data)
     if (data.length > 0) {  
 
-      const rand = Math.floor(Math.random() * 6);
+      const rand = Math.floor(Math.random() * data.length);
 
       const imageUrl = data[rand].image;
       const title = data[rand].title;
@@ -63,3 +62,41 @@ fetch("https://blog-crud-xvln.onrender.com/api/blogs/")
     });
   })
   .catch((error) => console.log(error));
+
+
+// Login form script
+document.addEventListener('DOMContentLoaded', () => {
+  const loginForm = document.getElementById('loginForm');
+  
+  if (loginForm) {
+    loginForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('error-message');
+
+      try {
+        const response = await fetch('/api/auth/admin', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          alert('Login successful');
+          // window.location.href = '/admin/create-blog';
+        } else {
+          errorMessage.textContent = data.msg || 'Login failed. Please try again.';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        errorMessage.textContent = 'An error occurred. Please try again later.';
+      }
+    });
+  }
+});

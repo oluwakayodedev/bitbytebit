@@ -27,6 +27,9 @@ app.use("/api/auth", authRoute)
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+app.get('/signin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
 
 // connect to DB and run server
 mongoose

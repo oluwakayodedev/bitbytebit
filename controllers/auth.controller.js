@@ -3,7 +3,6 @@ const Admin = require('../models/admin.model');
 
 const adminLogin = async (req, res) => {
     const { username, password } = req.body;
-
     try {
         const admin = await Admin.findOne({ username });
         if (!admin) {
