@@ -19,8 +19,10 @@ const adminLogin = async (req, res) => {
         // generate JWT
         const payload = { admin: { id: admin.id } };
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION_TIME });
-
-        res.json({ token });
+        res.json({
+            status: 'success',
+            token,
+        });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
@@ -43,7 +45,9 @@ const createAdmin = async (req, res) => {
         // store admin to db
         await admin.save();
 
-        res.status(201).json({ msg: 'Admin created successfully' });
+        res.status(201).json({ 
+            msg: 'Admin created successfully' 
+        });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
