@@ -37,6 +37,10 @@ app.get('/blog/:id', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'template.html'));
 });
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // connect to DB and run server
 mongoose
   .connect(process.env.MONGODB_KEY)
