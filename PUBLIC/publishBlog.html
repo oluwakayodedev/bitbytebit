@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post Editor</title>
+    <link rel="stylesheet" href="./styles/publish.styles.css">
+</head>
+<body>
+    <div class="container">
+        <form id="blogForm">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title">
+
+            <label for="description">Description</label>
+            <textarea id="description" name="description"></textarea>
+
+            <label for="headerImage">Header Image</label>
+            <input type="file" id="headerImage" name="headerImage">
+
+            <div class="contents">
+                <label>Contents</label>
+                <div class="section-header">
+                    <p>Section</p>
+                    <button type="button" id="addSectionButton">+</button>
+                </div>
+                <div class="sections">
+                    <div class="section">
+                        <details open>
+                            <summary>Section One:</summary>
+                            <label for="sectionTitle">Section Title:</label>
+                            <input type="text" id="sectionTitle" name="sectionTitle">
+                            
+                            <div class="editor-toolbar">
+                                <button type="button" class="boldBtn"><img src="./assets/images/bold.svg" alt="Bold"></button>
+                                <button type="button" class="italicBtn"><img src="./assets/images/italic.svg" alt="Italic" class="italic"></button>
+                                <button type="button" class="quoteBtn"><img src="./assets/images/quote.svg" alt="Quote"></button>
+                                <button type="button" class="imageBtn"><img src="./assets/images/image.svg" alt="Add Image" class="pic"></button>
+                                <input type="file" class="imageUpload" accept="image/*" style="display: none;">
+                            </div>                            
+                            
+                            <div class="sectionContent" contenteditable="true" placeholder="Write your content here..."></div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" id="submitForm">Publish</button>
+        </form>
+    </div>
+    <script src="./scripts/publish.js"></script>
+</body>
+</html>

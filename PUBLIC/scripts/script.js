@@ -65,8 +65,21 @@ fetch("https://blog-crud-xvln.onrender.com/api/blogs/")
 
 
 // Login form script
-document.addEventListener('DOMContentLoaded', () => {
-  const loginForm = document.getElementById('loginForm');
+document.addEventListener('DOMContentLoaded', async () => {
+    const loginForm = document.getElementById('loginForm');
+  const contentArea = document.querySelector('main, footer, .fixed-buttons'); // Select all main content areas to hide
+
+  // Hide main content until authentication is checked
+  if (contentArea) {
+    contentArea.style.display = 'none';
+  }
+  // is user authenticated?
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    // redirect home
+    window.location.href = '/publishBlog';
+    return;
+  }
   
   if (loginForm) {
     loginForm.addEventListener('submit', async function(e) {
@@ -88,8 +101,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
 
         if (response.ok) {
+          // store token in localStorage
+          localStorage.setItem('authToken', data.token);
           alert('Login successful');
-          // window.location.href = '/admin/create-blog';
+          window.location.href = '/publishBlog';
         } else {
           errorMessage.textContent = data.msg || 'Login failed. Please try again.';
         }

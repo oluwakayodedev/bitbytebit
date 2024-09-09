@@ -12,4 +12,4 @@ router.put('/:id', updateBlogById);
 
 router.delete('/:id', deleteBlogById);
 
-module.exports = router;        
+module.exports = router;

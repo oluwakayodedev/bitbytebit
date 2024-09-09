@@ -30,6 +30,9 @@ app.get('/', (req, res) => {
 app.get('/signin', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
+app.get('/publishBlog', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'publishBlog.html'));
+});
 
 // connect to DB and run server
 mongoose
