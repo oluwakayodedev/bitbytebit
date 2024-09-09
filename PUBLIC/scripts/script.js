@@ -8,6 +8,10 @@ fetch("https://blog-crud-xvln.onrender.com/api/blogs/")
       const imageUrl = data[rand].headerImage;
       const title = data[rand].title;
       const description = data[rand].description;
+      const blogId = data[rand]._id;
+
+      const link = document.createElement("a");
+      link.href = `/blog/${blogId}`;
 
       const imageContainer = document.createElement("div");
       imageContainer.classList.add("image-container");
@@ -31,7 +35,9 @@ fetch("https://blog-crud-xvln.onrender.com/api/blogs/")
       imageContainer.appendChild(imgElement);
       imageContainer.appendChild(overlay);
 
-      document.querySelector("#largearea").appendChild(imageContainer);
+      link.appendChild(imageContainer);
+
+      document.querySelector("#largearea").appendChild(link);
 
       return data;
     }
@@ -72,25 +78,31 @@ fetch("https://blog-crud-xvln.onrender.com/api/blogs/")
 
 // Login form script
 document.addEventListener('DOMContentLoaded', async () => {
-    const loginForm = document.getElementById('loginForm');
-  const contentArea = document.querySelector('main, footer, .fixed-buttons'); // Select all main content areas to hide
+  const loginForm = document.getElementById('loginForm');
+  const contentArea = document.querySelector('main, footer, .fixed-buttons');
 
-  // Hide main content until authentication is checked
+  // check auth and hide login
   if (contentArea) {
     contentArea.style.display = 'none';
   }
-  // is user authenticated?
+
   const token = localStorage.getItem('authToken');
   if (token) {
-    // redirect home
+    // user verified?, redirect /publishBlog
     window.location.href = '/publishBlog';
     return;
   }
-  
+
+  // user not authenticated, login!
+  if (contentArea) {
+    contentArea.style.display = 'block';
+  }
+
+  // login form submission
   if (loginForm) {
-    loginForm.addEventListener('submit', async function(e) {
+    loginForm.addEventListener('submit', async function (e) {
       e.preventDefault();
-      
+
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
       const errorMessage = document.getElementById('error-message');

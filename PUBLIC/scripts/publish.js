@@ -27,21 +27,21 @@ document
 
     const sectionNumber = numberWords[sectionCount - 1];
     newSection.innerHTML = `
-        <details>
-            <summary>Section ${sectionNumber}:</summary>
-            <label for="sectionTitle">Section Title:</label>
-            <input type="text" id="sectionTitle" name="sectionTitle">
-            
-            <div class="editor-toolbar">
-                <button type="button" class="boldBtn"><img src="./assets/images/bold.svg" alt="Bold"></button>
-                <button type="button" class="italicBtn"><img src="./assets/images/italic.svg" alt="Italic" class="italic"></button>
-                <button type="button" class="quoteBtn"><img src="./assets/images/quote.svg" alt="Quote"></button>
-                <button type="button" class="imageBtn"><img src="./assets/images/image.svg" alt="Add Image" class="pic"></button>
-                <input type="file" class="imageUpload" accept="image/*" style="display: none;">
-            </div>                            
-            
-            <div class="sectionContent" contenteditable="true" placeholder="Write your content here..."></div>
-        </details>
+      <details>
+          <summary>Section One:</summary>
+          <label for="sectionTitle">Section Title:</label>
+          <input type="text" id="sectionTitle" name="sectionTitle">
+          
+          <div class="editor-toolbar">
+              <button type="button" class="boldBtn"><img src="./assets/images/bold.svg" alt="Bold"></button>
+              <button type="button" class="italicBtn"><img src="./assets/images/italic.svg" alt="Italic" class="italic"></button>
+              <button type="button" class="quoteBtn"><img src="./assets/images/quote.svg" alt="Quote"></button>
+              <button type="button" class="imageBtn"><img src="./assets/images/image.svg" alt="Add Image" class="pic"></button>
+              <input type="file" class="imageUpload" accept="image/*" style="display: none;">
+          </div>                            
+          
+          <div class="sectionContent" contenteditable="true" placeholder="Write your content here..."></div>
+      </details>
     `;
 
     sectionsContainer.appendChild(newSection);
