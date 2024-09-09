@@ -1,5 +1,4 @@
 require("dotenv").config();
-const formidable = require("formidable");
 const Blog = require("../models/blog.model.js");
 
 const getBlogs = async (req, res) => {
