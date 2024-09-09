@@ -231,3 +231,13 @@ footer p{
   color: #303331;
   font-size: small;
 }
+
+a {
+  text-decoration: none; /* Removes the underline */
+  color: inherit; /* Makes the link color inherit from the parent element */
+}
+
+/* Optionally, add a hover effect to the link */
+a:hover {
+  opacity: 0.8; /* Example of making it slightly transparent on hover */
+}

@@ -5,7 +5,7 @@ fetch("https://blog-crud-xvln.onrender.com/api/blogs/")
 
       const rand = Math.floor(Math.random() * data.length);
 
-      const imageUrl = data[rand].image;
+      const imageUrl = data[rand].headerImage;
       const title = data[rand].title;
       const description = data[rand].description;
 
@@ -40,12 +40,16 @@ fetch("https://blog-crud-xvln.onrender.com/api/blogs/")
     console.log(data);
 
     data.forEach((item) => {
+      // 
+      const link = document.createElement("a");
+      link.href = `/blog/${item._id}`;
+      
       //flexbox item
       const gridItem = document.createElement("article");
       gridItem.classList.add("grid-item");
 
       const imgElement = document.createElement("img");
-      imgElement.src = item.image;
+      imgElement.src = item.headerImage;
       imgElement.alt = item.title;
 
       const titleElement = document.createElement("h3");
@@ -58,7 +62,9 @@ fetch("https://blog-crud-xvln.onrender.com/api/blogs/")
       gridItem.appendChild(titleElement);
       gridItem.appendChild(descriptionElement);
 
-      document.querySelector("#grid-container").appendChild(gridItem);
+      link.appendChild(gridItem);
+
+      document.querySelector("#grid-container").appendChild(link);
     });
   })
   .catch((error) => console.log(error));

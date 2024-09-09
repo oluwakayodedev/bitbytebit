@@ -33,6 +33,9 @@ app.get('/signin', (req, res) => {
 app.get('/publishBlog', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'publishBlog.html'));
 });
+app.get('/blog/:id', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'template.html'));
+});
 
 // connect to DB and run server
 mongoose

@@ -188,9 +188,7 @@ document.getElementById("blogForm").addEventListener("submit", function (e) {
         content: content,
       };
 
-      console.log(blogData);
-      // Send blogData to backend API
-      fetch("/api/blogs", {
+      fetch("https://blog-crud-xvln.onrender.com/api/blogs/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -200,7 +198,6 @@ document.getElementById("blogForm").addEventListener("submit", function (e) {
         .then((response) => response.json())
         .then((data) => {
           console.log("Blog post created:", data);
-          // Optionally, redirect or display a success message
         })
         .catch((err) => console.error("Error creating blog post:", err));
     })

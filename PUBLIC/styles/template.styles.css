@@ -1,0 +1,154 @@
+@font-face {
+  font-family: "Lota Grotesque Semi Bold";
+  src: url("../assets/fonts/LosAndesLotaGrotesqueSemiBold.otf")
+    format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Lota Grotesque Semi Bold It";
+  src: url("../assets/fonts/LosAndeLotaGrotesqueSemiBoldItalic.otf")
+    format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --primary: #a7d406;
+  --secondary: #fffef0;
+  --dark: #000;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth !important;
+}
+
+body,
+html {
+  font-family: "Saira Semi Condensed", "Poppins", sans-serif;
+  background-color: var(--dark);
+  color: var(--secondary);
+}
+
+::-webkit-scrollbar {
+  background-color: #101010;
+  width: 4px;
+  height: 3px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--primary) !important;
+  cursor: pointer;
+}
+::-moz-range-track {
+  background-color: #101010;
+}
+
+header {
+  padding: 3%;
+}
+header h1 {
+  font-family: "Lota Grotesque Semi Bold";
+  font-size: 3.5rem;
+}
+header p {
+  padding-top: 20px;
+  font-size: 1.3rem;
+}
+header img {
+  padding-top: 50px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.sidebar {
+  font-family: "Lota Grotesque Semi Bold";
+  font-size: 1.2rem;
+  width: 40%;
+  padding: 3%;
+  border-right: 1px solid #444;
+  position: sticky;
+  top: 0;
+}
+
+.sidebar ul {
+  list-style-type: none;
+}
+
+.sidebar li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #444;
+}
+
+.sidebar li a {
+  text-decoration: none;
+  padding: 5px 0;
+  color: var(--secondary);
+  flex-grow: 1;
+}
+
+.sidebar li .icon {
+  color: var(--secondary);
+  width: 20px;
+  height: 20px;
+}
+
+.sidebar li:hover,
+.sidebar li.active a {
+  background-color: var(--primary);
+}
+
+.content {
+  width: 60%;
+  padding: 3%;
+  color: var(--secondary);
+}
+
+.content h2 {
+  font-family: "Lota Grotesque Semi Bold";
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+.content p {
+  margin-bottom: 20px;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.content img {
+  padding: 20px 0;
+  max-width: 100%;
+  height: auto;
+}
+
+blockquote p {
+  font-family: "Lota Grotesque Semi Bold It";
+  font-weight: 600;
+  font-size: 2rem;
+  border-left: 2px solid #ccc;
+  padding-left: 16px;
+  color: #555;
+  text-align: left !important;
+}
+blockquote span {
+  margin-top: 2%;
+  white-space: pre;
+  font-family: "saira semi condensed";
+  font-size: 1.5rem;
+  display: block;
+  font-style: italic;
+}
