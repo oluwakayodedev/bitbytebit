@@ -188,7 +188,7 @@ document.getElementById("blogForm").addEventListener("submit", function (e) {
         content: content,
       };
 
-      fetch("https://blog-crud-xvln.onrender.com/api/blogs/", {
+      fetch("http://localhost:3000/api/blogs/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

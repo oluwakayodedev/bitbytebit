@@ -1,4 +1,4 @@
-fetch("https://blog-crud-xvln.onrender.com/api/blogs/")
+fetch("http://localhost:3000/api/blogs/")
   .then((res) => res.json())
   .then((data) => {
     if (data.length > 0) {  
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (response.ok) {
           // store token in localStorage
           localStorage.setItem('authToken', data.token);
-          alert('Login successful');
+          console.log('Login successful');
           window.location.href = '/publishBlog';
         } else {
           errorMessage.textContent = data.msg || 'Login failed. Please try again.';
