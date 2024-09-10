@@ -28,7 +28,7 @@ document
     const sectionNumber = numberWords[sectionCount - 1];
     newSection.innerHTML = `
       <details>
-          <summary>Section One:</summary>
+          <summary>Section ${sectionNumber}:</summary>
           <label for="sectionTitle">Section Title:</label>
           <input type="text" id="sectionTitle" name="sectionTitle">
           
