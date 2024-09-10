@@ -1,20 +1,20 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "server.js",
-        "use": "@vercel/node"
-      },
-      {
-        "src": "public/**/*",
-        "use": "@vercel/static"
-      }
-    ],
-    "routes": [
-      { "src": "/api/(.*)", "dest": "/server.js" },
-      { "src": "/signin", "dest": "/public/login.html" },
-      { "src": "/publishBlog", "dest": "/public/publishBlog.html" },
-      { "src": "/blog/(.*)", "dest": "/public/template.html" },
-      { "src": "/(.*)", "dest": "/public/$1" }
-    ]
-  }
+  "version": 2,
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "public/**/*",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/server.js" },
+    { "src": "/signin", "dest": "/public/login.html" },
+    { "src": "/publishBlog", "dest": "/public/publishBlog.html" },
+    { "src": "/blog/(.*)", "dest": "/public/template.html" },
+    { "src": "/(.*)", "dest": "/public/$1" }
+  ]
+}
