@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   
     // fetch blog data using the blogId
     try {
-      const response = await fetch(`http://localhost:3000/api/blogs/${blogId}`);
+      const response = await fetch(`https://www.thebitbytebit.tech/api/blogs/${blogId}`);
       if (!response.ok) {
         throw new Error("Failed to fetch blog data");
       }
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   
       // inject header content
       document.getElementById("blog-title").textContent = blogData.title;
-      document.getElementById("blog-description").textContent = blogData.description;
+      document.getElementById("sblog-description").textContent = blogData.description;
       document.getElementById("header-image").src = blogData.headerImage;
       
       // inject sidebar links
