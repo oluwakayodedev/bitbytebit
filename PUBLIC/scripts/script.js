@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (response.ok) {
           // store token in localStorage
           localStorage.setItem('authToken', data.token);
-          console.log('Login successful');
+          console.log("You're loggedIn...");
           window.location.href = '/publishBlog';
         } else {
           errorMessage.textContent = data.msg || 'Login failed. Please try again.';
