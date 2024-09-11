@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   
       // inject header content
       document.getElementById("blog-title").textContent = blogData.title;
-      document.getElementById("sblog-description").textContent = blogData.description;
+      document.getElementById("blog-description").textContent = blogData.description;
       document.getElementById("header-image").src = blogData.headerImage;
       
       // inject sidebar links
