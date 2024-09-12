@@ -152,3 +152,25 @@ blockquote span {
   display: block;
   font-style: italic;
 }
+
+@media (max-width: 768px) {
+
+  header h1{
+    font-size: 2.3rem;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #444;
+    position: relative;
+  }
+
+  .content {
+    width: 100%;
+  }
+}
