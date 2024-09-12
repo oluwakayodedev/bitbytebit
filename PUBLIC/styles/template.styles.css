@@ -55,11 +55,11 @@ header h1 {
   font-size: 3.5rem;
 }
 header p {
-  padding-top: 20px;
+  padding-top: 2%;
   font-size: 1.3rem;
 }
 header img {
-  padding-top: 50px;
+  padding-top: 5%;
   max-width: 100%;
   height: auto;
   display: block;
@@ -119,12 +119,11 @@ header img {
 
 .content h2 {
   font-family: "Lota Grotesque Semi Bold";
-  margin-bottom: 20px;
+  margin-bottom: 3%;
   font-size: 2rem;
 }
 
 .content p {
-  margin-bottom: 20px;
   line-height: 1.6;
   text-align: justify;
 }
