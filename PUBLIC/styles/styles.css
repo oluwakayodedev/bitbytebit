@@ -66,7 +66,7 @@ nav .container {
 }
 
 main {
-  padding: 10px 20px;
+  padding: 3%;
 }
 
 main img {
@@ -247,4 +247,38 @@ a {
 
 a:hover {
   opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  :root {
+    font-size: 14px;
+  }
+
+  .recents h2 {
+    font-size: 1.3rem;
+  }
+  .view-btn {
+    font-size: 0.9rem;
+  }
+
+  .image-container img {
+    border-radius: 2%;
+  }
+  #largearea .overlay {
+    position: relative;
+    margin-top: 1rem;
+    background: transparent;
+    padding-bottom: 0;
+  }
+  #largearea .overlay-text {
+    padding: 10px;
+    position: static;
+    margin: 8px;
+  }
+  #largearea .overlay-text h2 {
+    font-size: 1.2rem;
+  }
+  #largearea .overlay-text p {
+    font-size: 0.9rem;
+  }
 }
