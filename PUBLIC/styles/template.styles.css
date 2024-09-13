@@ -55,11 +55,11 @@ header h1 {
   font-size: 3.5rem;
 }
 header p {
-  padding-top: 20px;
+  padding-top: 15px;
   font-size: 1.3rem;
 }
 header img {
-  padding-top: 50px;
+  padding-top: 20px;
   max-width: 100%;
   height: auto;
   display: block;
@@ -168,9 +168,14 @@ blockquote span {
     border-right: none;
     border-bottom: 1px solid #444;
     position: relative;
+    margin-bottom: 20px;
   }
 
   .content {
     width: 100%;
+  }
+
+  .content h2 {
+    margin-bottom: 10px;
   }
 }
