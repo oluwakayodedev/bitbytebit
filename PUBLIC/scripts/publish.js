@@ -224,7 +224,7 @@ function submitBlogContent(headerImageUrl, title, description) {
     content: content,
   };
 
-  fetch("http://localhost:3000/api/blogs", {
+  fetch("https://www.thebitbytebit.tech/api/blogs", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
