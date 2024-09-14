@@ -48,6 +48,15 @@ html {
   background-color: #101010;
 }
 
+.del-btn {
+  position: fixed;
+  top: 90px;
+  right: 25px;
+  z-index: 99;
+}
+.floating-del {
+  background-color: var(--dark);
+}
 .header {
   padding: 3%;
 }

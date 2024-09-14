@@ -143,63 +143,98 @@ document.getElementById("blogForm").addEventListener("submit", function (e) {
   formData.append("file", headerImageInput.files[0]);
   formData.append("upload_preset", "myuploadpreset");
 
-  // upload header image to Cloudinary
-  fetch("https://api.cloudinary.com/v1_1/dxjeykfd8/image/upload", {
-    method: "POST",
-    body: formData,
-  })
-    .then((response) => response.json())
-    .then((headerImageData) => {
+  // Show the new upload UI
+  const uploadContainer = document.querySelector(".upload-container");
+  const progressBar = document.querySelector(".progress");
+  const progressText = document.querySelector(".progress-percent");
+  uploadContainer.style.display = "flex";
+
+  // Create a new XMLHttpRequest object
+  const xhr = new XMLHttpRequest();
+
+  // Track the upload progress
+  xhr.upload.addEventListener("progress", function (event) {
+    if (event.lengthComputable) {
+      const percentComplete = Math.round((event.loaded / event.total) * 100);
+      // Update the progress bar and text
+      progressBar.style.width = percentComplete + '%';
+      progressText.textContent = percentComplete + '%';
+      console.log(`Progress: ${percentComplete}%`);
+    }
+  });
+
+  // Handle when the upload is complete
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      console.log("Upload complete!");
+
+      // Parse the response and get the uploaded image URL
+      const headerImageData = JSON.parse(xhr.responseText);
       const headerImageUrl = headerImageData.secure_url;
 
-      const sections = document.querySelectorAll(".section");
-      const content = [];
+      // Hide the upload UI after the upload is finished
+      uploadContainer.style.display = 'none';
 
-      sections.forEach((section, index) => {
-        const sectionTitle = section.querySelector(
-          `input[name="sectionTitle"]`
-        ).value;
-        const sectionContent =
-          section.querySelector(".sectionContent").innerHTML;
+      // Now handle the blog content submission after the image upload
+      submitBlogContent(headerImageUrl, title, description);
+    } else if (xhr.readyState === 4 && xhr.status !== 200) {
+      console.error("Error during the image upload:", xhr.responseText);
+    }
+  };
 
-        content.push({
-          type: "heading",
-          level: 2,
-          text: sectionTitle,
-          id: `section-${index + 1}`,
-        });
-        content.push({
-          type: "text",
-          content: sectionContent,
-        });
-      });
-
-      // Build JSON data
-      const blogData = {
-        title: title,
-        description: description,
-        headerImage: headerImageUrl,
-        sidebarLinks: content
-          .filter((item) => item.type === "heading")
-          .map((heading) => ({
-            href: `#${heading.id}`,
-            text: heading.text,
-          })),
-        content: content,
-      };
-
-      fetch("https://www.thebitbytebit.tech/api/blogs", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(blogData),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Blog post created:", data);
-        })
-        .catch((err) => console.error("Error creating blog post:", err));
-    })
-    .catch((err) => console.error("Error uploading image to Cloudinary:", err));
+  // Send the image upload request
+  xhr.open("POST", "https://api.cloudinary.com/v1_1/dxjeykfd8/image/upload", true);
+  xhr.send(formData);
 });
+
+function submitBlogContent(headerImageUrl, title, description) {
+  const sections = document.querySelectorAll(".section");
+  const content = [];
+
+  sections.forEach((section, index) => {
+    const sectionTitle = section.querySelector(
+      `input[name="sectionTitle"]`
+    ).value;
+    const sectionContent =
+      section.querySelector(".sectionContent").innerHTML;
+
+    content.push({
+      type: "heading",
+      level: 2,
+      text: sectionTitle,
+      id: `section-${index + 1}`,
+    });
+    content.push({
+      type: "text",
+      content: sectionContent,
+    });
+  });
+
+  // Build JSON data
+  const blogData = {
+    title: title,
+    description: description,
+    headerImage: headerImageUrl,
+    sidebarLinks: content
+      .filter((item) => item.type === "heading")
+      .map((heading) => ({
+        href: `#${heading.id}`,
+        text: heading.text,
+      })),
+    content: content,
+  };
+
+  fetch("http://localhost:3000/api/blogs", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(blogData),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Blog post created:", data);
+      // Handle UI feedback after submission
+    })
+    .catch((err) => console.error("Error creating blog post:", err));
+}
