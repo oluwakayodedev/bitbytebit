@@ -242,6 +242,16 @@ document.addEventListener("DOMContentLoaded", function () {
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 201)) {
         console.log("Blog post created:", xhr.responseText);
+        // get blog id from the response and redirect to the blog
+        const response = JSON.parse(xhr.responseText);
+        const blogId = response._id;
+
+        if (blogId) {
+          window.location.href = `http://localhost:3000/blog/${blogId}`;
+        } else {
+          console.error("blogId not found in response.");
+        }
+
         progressBar.style.width = "100%";
       } else if (xhr.readyState === 4 && xhr.status !== 200) {
         console.error("Error submitting blog post:", xhr.responseText);
