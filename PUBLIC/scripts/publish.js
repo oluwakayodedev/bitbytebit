@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const publishButton = document.getElementById("submitForm");
   const uploadContainer = document.querySelector(".pgr-btn");
   const progressBar = document.querySelector(".pgr-bar");
-  const progressText = document.querySelector(".progress-percent");
+  const progressText = document.querySelector(".pgr-pcnt");
 
   blogForm.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
-        
+
         // get uploaded image URL
         const headerImageData = JSON.parse(xhr.responseText);
         const headerImageUrl = headerImageData.secure_url;
