@@ -157,7 +157,7 @@ main img {
 .recents h2{
   font-weight: 600;
 }
-.view-btn {
+.view-btn, .view-all {
   background-color: #a7d406;
   color: rgb(8, 10, 88);
   border-radius: 5px;
@@ -213,6 +213,14 @@ main img {
   -webkit-line-clamp: 3;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.view{
+  max-width: fit-content;
+  margin: 15px auto;
+}
+.view-all{
+  padding: 10px 30px;
 }
 
 .fixed-buttons {
@@ -280,5 +288,10 @@ a:hover {
   }
   #largearea .overlay-text p {
     font-size: 0.9rem;
+  }
+
+  .view{
+    max-width: fit-content;
+    margin: 5% auto;
   }
 }

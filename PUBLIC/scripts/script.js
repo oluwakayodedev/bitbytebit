@@ -1,14 +1,19 @@
 fetch("https://www.thebitbytebit.tech/api/blogs")
   .then((res) => res.json())
   .then((data) => {
-    if (data.length > 0) {  
+    if (data.length > 0) {
+      // sort blogs by modifed date to stay recent
+      data.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 
-      const rand = Math.floor(Math.random() * data.length);
+      const recentBlogs = data.slice(0, 9);
 
-      const imageUrl = data[rand].headerImage;
-      const title = data[rand].title;
-      const description = data[rand].description;
-      const blogId = data[rand]._id;
+      // random blog in the large area
+      const rand = Math.floor(Math.random() * recentBlogs.length);
+
+      const imageUrl = recentBlogs[rand].headerImage;
+      const title = recentBlogs[rand].title;
+      const description = recentBlogs[rand].description;
+      const blogId = recentBlogs[rand]._id;
 
       const link = document.createElement("a");
       link.href = `/blog/${blogId}`;
@@ -39,44 +44,38 @@ fetch("https://www.thebitbytebit.tech/api/blogs")
 
       document.querySelector("#largearea").appendChild(link);
 
-      return data;
+      // Display recent blogs in the grid
+      recentBlogs.forEach((item) => {
+        const link = document.createElement("a");
+        link.href = `/blog/${item._id}`;
+
+        const gridItem = document.createElement("article");
+        gridItem.classList.add("grid-item");
+
+        const imgElement = document.createElement("img");
+        imgElement.src = item.headerImage;
+        imgElement.alt = item.title;
+
+        const titleElement = document.createElement("h3");
+        titleElement.textContent = item.title;
+
+        const descriptionElement = document.createElement("p");
+        descriptionElement.textContent = item.description;
+
+        gridItem.appendChild(imgElement);
+        gridItem.appendChild(titleElement);
+        gridItem.appendChild(descriptionElement);
+
+        link.appendChild(gridItem);
+
+        document.querySelector("#grid-container").appendChild(link);
+      });
     }
-  })
-  .then((data) => {
-    console.log(data);
-
-    data.forEach((item) => {
-      // 
-      const link = document.createElement("a");
-      link.href = `/blog/${item._id}`;
-      
-      //flexbox item
-      const gridItem = document.createElement("article");
-      gridItem.classList.add("grid-item");
-
-      const imgElement = document.createElement("img");
-      imgElement.src = item.headerImage;
-      imgElement.alt = item.title;
-
-      const titleElement = document.createElement("h3");
-      titleElement.textContent = item.title;
-
-      const descriptionElement = document.createElement("p");
-      descriptionElement.textContent = item.description;
-
-      gridItem.appendChild(imgElement);
-      gridItem.appendChild(titleElement);
-      gridItem.appendChild(descriptionElement);
-
-      link.appendChild(gridItem);
-
-      document.querySelector("#grid-container").appendChild(link);
-    });
   })
   .catch((error) => console.log(error));
 
 
-// Login form script
+// login form script
 document.addEventListener('DOMContentLoaded', async () => {
   const loginForm = document.getElementById('loginForm');
   const contentArea = document.querySelector('main, footer, .fixed-buttons');
