@@ -202,3 +202,40 @@ textarea.sectionContent::placeholder {
 .sectionContent[contenteditable="true"]:focus:before {
   content: "";
 }
+
+.pgr-btn {
+  display: none;
+  width: 30%;
+  height: 20px;
+  margin-top: 15px;
+  float: right;
+  background-color: var(--primary);
+  position: relative;
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.pgr-bar {
+  position: absolute;
+  height: 100%;
+  width: 0;
+  background-color: var(--text-light);
+  border-radius: 7px;
+  transition: width 0.4s ease;
+}
+
+.pgr-pcnt {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--dark);
+  z-index: 1;
+  line-height: 20px;
+}
+
+@media (max-width: 768px) {
+  .pgr-btn{
+  width: 50%;
+  }
+}

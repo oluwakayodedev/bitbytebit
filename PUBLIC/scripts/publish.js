@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const italicBtns = document.querySelectorAll(".italicBtn");
   const imageBtns = document.querySelectorAll(".imageBtn");
 
-  // Wrap selected text in HTML tag
+  // wrap selected text in HTML tag
   function wrapSelection(tag) {
     const selection = window.getSelection();
     if (!selection.rangeCount) return;
@@ -132,109 +132,125 @@ function attachImageUploadListener(section) {
   });
 }
 
-document.getElementById("blogForm").addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const title = document.getElementById("title").value;
-  const description = document.getElementById("description").value;
-  const headerImageInput = document.getElementById("headerImage");
-
-  const formData = new FormData();
-  formData.append("file", headerImageInput.files[0]);
-  formData.append("upload_preset", "myuploadpreset");
-
-  // Show the new upload UI
-  const uploadContainer = document.querySelector(".upload-container");
-  const progressBar = document.querySelector(".progress");
+document.addEventListener("DOMContentLoaded", function () {
+  const blogForm = document.getElementById("blogForm");
+  const publishButton = document.getElementById("submitForm");
+  const uploadContainer = document.querySelector(".pgr-btn");
+  const progressBar = document.querySelector(".pgr-bar");
   const progressText = document.querySelector(".progress-percent");
-  uploadContainer.style.display = "flex";
 
-  // Create a new XMLHttpRequest object
-  const xhr = new XMLHttpRequest();
+  blogForm.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-  // Track the upload progress
-  xhr.upload.addEventListener("progress", function (event) {
-    if (event.lengthComputable) {
-      const percentComplete = Math.round((event.loaded / event.total) * 100);
-      // Update the progress bar and text
-      progressBar.style.width = percentComplete + '%';
-      progressText.textContent = percentComplete + '%';
-      console.log(`Progress: ${percentComplete}%`);
-    }
+    publishButton.style.display = "none"; 
+    uploadContainer.style.display = "flex"; 
+
+    const title = document.getElementById("title").value;
+    const description = document.getElementById("description").value;
+    const headerImageInput = document.getElementById("headerImage");
+
+    const formData = new FormData();
+    formData.append("file", headerImageInput.files[0]);
+    formData.append("upload_preset", "myuploadpreset");
+
+    const xhr = new XMLHttpRequest();
+
+    // track image upload progress using 80% of the progress bar
+    xhr.upload.addEventListener("progress", function (event) {
+      if (event.lengthComputable) {
+        const percentComplete = Math.round((event.loaded / event.total) * 80);
+        progressBar.style.width = percentComplete + "%";
+        progressText.textContent = `${percentComplete}%`;
+      }
+    });
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        
+        // get uploaded image URL
+        const headerImageData = JSON.parse(xhr.responseText);
+        const headerImageUrl = headerImageData.secure_url;
+
+        // handle blog content submission after the image upload
+        submitBlogContent(headerImageUrl, title, description);
+      } else if (xhr.readyState === 4 && xhr.status !== 200) {
+        console.error("Error during the image upload:", xhr.responseText);
+        // show publish btn again in case of err
+        publishButton.style.display = "block";
+        uploadContainer.style.display = "none";
+      }
+    };
+
+    // upload image request
+    xhr.open(
+      "POST",
+      "https://api.cloudinary.com/v1_1/dxjeykfd8/image/upload",
+      true
+    );
+    xhr.send(formData);
   });
 
-  // Handle when the upload is complete
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      console.log("Upload complete!");
+  function submitBlogContent(headerImageUrl, title, description) {
+    const sections = document.querySelectorAll(".section");
+    const content = [];
 
-      // Parse the response and get the uploaded image URL
-      const headerImageData = JSON.parse(xhr.responseText);
-      const headerImageUrl = headerImageData.secure_url;
+    sections.forEach((section, index) => {
+      const sectionTitle = section.querySelector(
+        `input[name="sectionTitle"]`
+      ).value;
+      const sectionContent = section.querySelector(".sectionContent").innerHTML;
 
-      // Hide the upload UI after the upload is finished
-      uploadContainer.style.display = 'none';
+      content.push({
+        type: "heading",
+        level: 2,
+        text: sectionTitle,
+        id: `section-${index + 1}`,
+      });
+      content.push({
+        type: "text",
+        content: sectionContent,
+      });
+    });
 
-      // Now handle the blog content submission after the image upload
-      submitBlogContent(headerImageUrl, title, description);
-    } else if (xhr.readyState === 4 && xhr.status !== 200) {
-      console.error("Error during the image upload:", xhr.responseText);
-    }
-  };
+    const blogData = {
+      title: title,
+      description: description,
+      headerImage: headerImageUrl,
+      sidebarLinks: content
+        .filter((item) => item.type === "heading")
+        .map((heading) => ({
+          href: `#${heading.id}`,
+          text: heading.text,
+        })),
+      content: content,
+    };
 
-  // Send the image upload request
-  xhr.open("POST", "https://api.cloudinary.com/v1_1/dxjeykfd8/image/upload", true);
-  xhr.send(formData);
+    const xhr = new XMLHttpRequest();
+
+    // track blog submission progress using the remaining 20% of the progress bar
+    xhr.upload.addEventListener("progress", function (event) {
+      if (event.lengthComputable) {
+        const percentComplete = 80 + Math.round((event.loaded / event.total) * 20);
+        progressBar.style.width = percentComplete + "%";
+        progressText.textContent = `${percentComplete}%`;
+      }
+    });
+
+    xhr.open("POST", "http://localhost:3000/api/blogs", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 201)) {
+        console.log("Blog post created:", xhr.responseText);
+        progressBar.style.width = "100%";
+      } else if (xhr.readyState === 4 && xhr.status !== 200) {
+        console.error("Error submitting blog post:", xhr.responseText);
+        // show publish btn in case of error
+        publishButton.style.display = "block";
+        uploadContainer.style.display = "none";
+      }
+    };
+
+    xhr.send(JSON.stringify(blogData));
+  }
 });
-
-function submitBlogContent(headerImageUrl, title, description) {
-  const sections = document.querySelectorAll(".section");
-  const content = [];
-
-  sections.forEach((section, index) => {
-    const sectionTitle = section.querySelector(
-      `input[name="sectionTitle"]`
-    ).value;
-    const sectionContent =
-      section.querySelector(".sectionContent").innerHTML;
-
-    content.push({
-      type: "heading",
-      level: 2,
-      text: sectionTitle,
-      id: `section-${index + 1}`,
-    });
-    content.push({
-      type: "text",
-      content: sectionContent,
-    });
-  });
-
-  // Build JSON data
-  const blogData = {
-    title: title,
-    description: description,
-    headerImage: headerImageUrl,
-    sidebarLinks: content
-      .filter((item) => item.type === "heading")
-      .map((heading) => ({
-        href: `#${heading.id}`,
-        text: heading.text,
-      })),
-    content: content,
-  };
-
-  fetch("https://www.thebitbytebit.tech/api/blogs", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(blogData),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Blog post created:", data);
-      // Handle UI feedback after submission
-    })
-    .catch((err) => console.error("Error creating blog post:", err));
-}
