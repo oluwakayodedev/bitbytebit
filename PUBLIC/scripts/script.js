@@ -1,4 +1,4 @@
-fetch("http://www.thebitbytebit.tech/api/blogs")
+fetch("https://www.thebitbytebit.tech/api/blogs")
   .then((res) => res.json())
   .then((data) => {
     if (data.length > 0) {
