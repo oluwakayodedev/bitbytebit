@@ -37,3 +37,8 @@ nav #container {
   color: var(--primary);
   transform: scale(0.96);
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

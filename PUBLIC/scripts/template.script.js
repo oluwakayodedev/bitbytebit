@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // fetch blog data using the blogId
   try {
-    const response = await fetch(`https://www.thebitbytebit.tech/api/blogs/${blogId}`);
+    const response = await fetch(`http://www.thebitbytebit.tech/api/blogs/${blogId}`);
     if (!response.ok) {
       throw new Error("Failed to fetch blog data");
     }
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   // delete button
   document.getElementById("delete-blog-btn").addEventListener("click", async function () {
     try {
-      const response = await fetch(`https://www.thebitbytebit.tech/api/blogs/${blogId}`, {
+      const response = await fetch(`http://www.thebitbytebit.tech/api/blogs/${blogId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {

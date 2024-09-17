@@ -35,6 +35,10 @@ app.get('/publishBlog', (req, res) => {
 app.get('/blog/:id', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'template.html'));
 });
+app.get('/view-all-blog', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'viewall.html'));
+});
+
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
