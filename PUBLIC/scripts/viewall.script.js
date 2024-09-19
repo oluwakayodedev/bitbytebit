@@ -16,6 +16,7 @@ fetch("https://www.thebitbytebit.tech/api/blogs")
         const imgElement = document.createElement("img");
         imgElement.src = item.headerImage;
         imgElement.alt = item.title;
+        imgElement.loading = "lazy";
 
         const titleElement = document.createElement("h3");
         titleElement.textContent = item.title;
