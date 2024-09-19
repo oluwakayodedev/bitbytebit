@@ -129,7 +129,7 @@ html {
 
 .content h2 {
   font-family: "Lota Grotesque Semi Bold";
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 2rem;
 }
 
@@ -140,7 +140,7 @@ html {
 }
 
 .content img {
-  padding: 20px 0;
+  padding: 0;
   max-width: 100%;
   height: auto;
 }
@@ -170,6 +170,12 @@ blockquote span {
   .header h1{
     font-size: 2.3rem;
   }
+  .header p {
+    padding-top: 10px;
+  }
+  .header img {
+    padding-top: 10px;
+  }
   .container {
     display: flex;
     flex-direction: column;
@@ -180,7 +186,7 @@ blockquote span {
     border-right: none;
     border-bottom: 1px solid #444;
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 
   .content {
@@ -188,6 +194,6 @@ blockquote span {
   }
 
   .content h2 {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
 }
