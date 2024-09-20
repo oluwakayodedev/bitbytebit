@@ -14,17 +14,30 @@
   </head>
   <body>
     <header>
-      <nav>
         <div class="container">
           <div class="logo">
             <h2>bitbytebit.inc</h2>
           </div>
-          <div class="nav-icon">
+          <div class="nav-icon" id="menu-icon">
             <img src="./assets/images/menu.svg" alt="" />
           </div>
         </div>
-      </nav>
     </header>
+
+    <nav id="nav-menu" class="hidden">
+      <img src="./assets/images/close.svg" alt="close" id="close-btn" class="close-btn">
+      <div class="my-nav-area">
+        <div class="search-container">
+          <input type="text" placeholder="SEARCH..." class="search-input">
+          <img src="./assets/images/search.svg" alt="search" id="search-icon">
+        </div>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a>Admin: Sign In</a></li>
+        </ul>
+        <!-- <img src="./assets/images/github.svg" alt="github-logo"> -->
+      </div>
+    </nav>
     <main>
       <section>
         <div id="largearea"></div>
@@ -48,4 +61,27 @@
     </footer>
   </body>
   <script src="./scripts/script.js" async></script>
+  <script defer>
+    const menuIcon = document.getElementById("menu-icon");
+    const navMenu = document.getElementById("nav-menu");
+    const closeMenu = document.getElementById("close-btn");
+
+    menuIcon.addEventListener("click", (event) => {
+      event.stopPropagation();
+      navMenu.classList.toggle("active");
+      navMenu.classList.toggle("hidden");
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!navMenu.contains(event.target) && !menuIcon.contains(event.target)) {
+        navMenu.classList.remove("active");
+        navMenu.classList.add("hidden");
+      }
+    });
+
+    closeMenu.addEventListener("click", (event) => {
+      navMenu.classList.remove("active");
+      navMenu.classList.add("hidden");
+    });
+  </script>
 </html>

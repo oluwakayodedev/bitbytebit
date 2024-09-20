@@ -14,23 +14,45 @@
   </head>
   <body>
     <header>
-      <nav>
-        <div class="container">
-          <div class="logo">
-            <h2><a href="/">bitbytebit.inc</a></h2>
-          </div>
-          <div class="nav-icon">
-            <img src="./assets/images/menu.svg" alt="" />
-          </div>
+      <div class="container">
+        <div class="logo">
+          <h2><a href="/">bitbytebit.inc</a></h2>
         </div>
-      </nav>
+        <div class="nav-icon" id="menu-icon">
+          <img src="./assets/images/menu.svg" alt="" />
+        </div>
+      </div>
     </header>
+
+    <nav id="nav-menu" class="hidden">
+      <img
+        src="./assets/images/close.svg"
+        alt="close"
+        id="close-btn"
+        class="close-btn"
+      />
+      <div class="search-bar">
+        <input type="text" placeholder="Search..." />
+        <button>&#x1F50D;</button>
+      </div>
+      <ul>
+        <li>Home</li>
+        <li>Tech</li>
+        <li>Reviews</li>
+        <li>Science</li>
+        <li>Entertainment</li>
+        <li>AI</li>
+      </ul>
+    </nav>
+
     <main>
       <h2 class="allblog">All Blogs at a Glance</h2>
       <section id="grid-container"></section>
     </main>
     <div class="fixed-buttons">
-      <a href="/signin"><img src="./assets/images/add.svg" class="floating-menu" /></a>
+      <a href="/signin"
+        ><img src="./assets/images/add.svg" class="floating-menu"
+      /></a>
     </div>
     <footer>
       <p>© 2023 bitbytebit.inc All Rights Reserved</p>

@@ -69,6 +69,7 @@ html {
   font-size: 1.3rem;
 }
 .header img {
+  width: 100%;
   padding-top: 20px;
   max-width: 100%;
   height: auto;
