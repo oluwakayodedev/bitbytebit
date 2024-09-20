@@ -80,46 +80,27 @@ fetch("https://www.thebitbytebit.tech/api/blogs")
 document.addEventListener("DOMContentLoaded", async () => {
   const loginForm = document.getElementById("loginForm");
   const contentArea = document.querySelector("main, footer, .fixed-buttons");
-  const publishButton = document.querySelector(".fixed-buttons a");
-  
+  // check auth and hide login
+  if (contentArea) {
+    contentArea.style.display = "none";
+  }
   const token = localStorage.getItem("authToken");
-
-  if (publishButton) {
-    if (token) {
-      publishButton.setAttribute("href", "/publishBlog");
-    } else {
-      publishButton.setAttribute("href", "/signin");
-    }
-  }
-
-  if (publishButton && token) {
-    publishButton.addEventListener("click", (e) => {
-      e.preventDefault();
-      window.location.href = "/publishBlog";
-    });
-  }
-
-  if (token && window.location.pathname === "/login") {
+  if (token) {
+    // user verified?, redirect /publishBlog
     window.location.href = "/publishBlog";
     return;
   }
-
-  // non-authenticated users redirect to login page
-  if (!token && window.location.pathname === "/login") {
-    if (contentArea) {
-      contentArea.style.display = "block";
-    }
+  // user not authenticated, login!
+  if (contentArea) {
+    contentArea.style.display = "block";
   }
-
   // login form submission
   if (loginForm) {
     loginForm.addEventListener("submit", async function (e) {
       e.preventDefault();
-
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
       const errorMessage = document.getElementById("error-message");
-
       try {
         const response = await fetch("/api/auth/admin", {
           method: "POST",
@@ -128,13 +109,11 @@ document.addEventListener("DOMContentLoaded", async () => {
           },
           body: JSON.stringify({ username, password }),
         });
-
         const data = await response.json();
-
         if (response.ok) {
           // store token in localStorage
           localStorage.setItem("authToken", data.token);
-          console.log("You're logged in...");
+          console.log("You're loggedIn...");
           window.location.href = "/publishBlog";
         } else {
           errorMessage.textContent =
