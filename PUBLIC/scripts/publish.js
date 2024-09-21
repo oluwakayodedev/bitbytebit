@@ -17,11 +17,13 @@ document.addEventListener("DOMContentLoaded", function () {
     .then((response) => response.json())
     .then((data) => {
       if (!data.valid) {
+        localStorage.removeItem("authToken");
         console.log("Invalid Token, redirecting to /signin");
         window.location.href = "/signin";
       }
     })
     .catch((error) => {
+      localStorage.removeItem("authToken");
       console.error("Token verification err:", error);
       window.location.href = "/signin";
     });
