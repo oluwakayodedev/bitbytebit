@@ -1,3 +1,32 @@
+document.addEventListener("DOMContentLoaded", function () {
+  const token = localStorage.getItem("authToken");
+
+  if (!token) {
+    window.location.href = "/signin";
+    return;
+  }
+
+  fetch('/api/auth/verifyToken', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': token
+    },
+    body: JSON.stringify({ token })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (!data.valid) {
+      console.log("Invalid Token, redirecting to /signin");
+      window.location.href = "/signin";
+    }
+  })
+  .catch(error => {
+    console.error("Token verification err:", error);
+    window.location.href = "/signin";
+  });
+});
+
 const numberWords = [
   "One",
   "Two",

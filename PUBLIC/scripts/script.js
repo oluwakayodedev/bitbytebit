@@ -32,12 +32,12 @@ fetch("https://www.thebitbytebit.tech/api/blogs")
   .then((res) => res.json())
   .then((data) => {
     if (data.length > 0) {
-      // Sort blogs by modified date
+      // sort blogs by modifed date to stay recent
       data.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 
       const recentBlogs = data.slice(0, 9);
 
-      // Display random blog in large area
+      // random blog in the large area
       const rand = Math.floor(Math.random() * recentBlogs.length);
       const randomBlog = recentBlogs[rand];
 
