@@ -6,25 +6,25 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  fetch('/api/auth/verifyToken', {
-    method: 'POST',
+  fetch("/api/auth/verifyToken", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': token
+      "Content-Type": "application/json",
+      Authorization: token,
     },
-    body: JSON.stringify({ token })
+    body: JSON.stringify({ token }),
   })
-  .then(response => response.json())
-  .then(data => {
-    if (!data.valid) {
-      console.log("Invalid Token, redirecting to /signin");
+    .then((response) => response.json())
+    .then((data) => {
+      if (!data.valid) {
+        console.log("Invalid Token, redirecting to /signin");
+        window.location.href = "/signin";
+      }
+    })
+    .catch((error) => {
+      console.error("Token verification err:", error);
       window.location.href = "/signin";
-    }
-  })
-  .catch(error => {
-    console.error("Token verification err:", error);
-    window.location.href = "/signin";
-  });
+    });
 });
 
 const numberWords = [
@@ -77,12 +77,17 @@ document
     sectionCount++;
 
     attachImageUploadListener(newSection);
+    attachEditorToolbarListeners(newSection);
   });
 
 document.addEventListener("DOMContentLoaded", function () {
-  const boldBtns = document.querySelectorAll(".boldBtn");
-  const italicBtns = document.querySelectorAll(".italicBtn");
-  const imageBtns = document.querySelectorAll(".imageBtn");
+  attachEditorToolbarListeners(document);
+});
+
+function attachEditorToolbarListeners(container) {
+  const boldBtns = container.querySelectorAll(".boldBtn");
+  const italicBtns = container.querySelectorAll(".italicBtn");
+  const imageBtns = container.querySelectorAll(".imageBtn");
 
   // wrap selected text in HTML tag
   function wrapSelection(tag) {
@@ -119,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
   imageBtns.forEach((btn) => {
     attachImageUploadListener(btn.closest(".section"));
   });
-});
+}
 
 // attach image
 function attachImageUploadListener(section) {
@@ -171,8 +176,8 @@ document.addEventListener("DOMContentLoaded", function () {
   blogForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    publishButton.style.display = "none"; 
-    uploadContainer.style.display = "flex"; 
+    publishButton.style.display = "none";
+    uploadContainer.style.display = "flex";
 
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
@@ -195,7 +200,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
-
         // get uploaded image URL
         const headerImageData = JSON.parse(xhr.responseText);
         const headerImageUrl = headerImageData.secure_url;
@@ -259,7 +263,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // track blog submission progress using the remaining 20% of the progress bar
     xhr.upload.addEventListener("progress", function (event) {
       if (event.lengthComputable) {
-        const percentComplete = 80 + Math.round((event.loaded / event.total) * 20);
+        const percentComplete =
+          80 + Math.round((event.loaded / event.total) * 20);
         progressBar.style.width = percentComplete + "%";
         progressText.textContent = `${percentComplete}%`;
       }
