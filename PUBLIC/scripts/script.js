@@ -2,14 +2,23 @@ document.addEventListener("DOMContentLoaded", function () {
   const fixedButton = document.getElementById("fixed-button");
 
   function isUserLoggedIn() {
-    const loggedIn = localStorage.getItem("authToken") === "true";
-    return loggedIn;
+    const token = localStorage.getItem("authToken");
+    return fetch('/api/auth/verifyToken', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ token })
+    })
+    .then(response => response.json())
+    .then(data => data.valid)
+    .catch(() => false);
   }
 
-  fixedButton.addEventListener("click", function (event) {
+  fixedButton.addEventListener("click", async function (event) {
     event.preventDefault();
 
-    if (isUserLoggedIn()) {
+    if (await isUserLoggedIn()) {
       console.log("Redirecting to /publishBlog");
       window.location.href = "/publishBlog";
     } else {

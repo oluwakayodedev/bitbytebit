@@ -53,7 +53,23 @@ const createAdmin = async (req, res) => {
     }
 };
 
+const verifyToken = (req, res) => {
+    const token = req.body.token;
+
+    if (!token) {
+        return res.status(400).send({ valid: false, message: 'Token is required' });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(401).send({ valid: false, message: 'Token is invalid or expird' });
+        }
+        res.send({ valid: true, message: 'Token is valid' });
+    });
+};
+
 module.exports = { 
     adminLogin,
-    createAdmin
+    createAdmin,
+    verifyToken
 };
