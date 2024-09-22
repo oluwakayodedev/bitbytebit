@@ -5,7 +5,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // fetch blog data using the blogId
   try {
-    const response = await fetch(`https://www.thebitbytebit.tech/api/blogs/${blogId}`);
+    const response = await fetch(
+      `https://www.thebitbytebit.tech/api/blogs/${blogId}`
+    );
     if (!response.ok) {
       throw new Error("Failed to fetch blog data");
     }
@@ -13,7 +15,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // inject header content
     document.getElementById("blog-title").textContent = blogData.title;
-    document.getElementById("blog-description").textContent = blogData.description;
+    document.getElementById("blog-description").textContent =
+      blogData.description;
     document.getElementById("header-image").src = blogData.headerImage;
 
     // inject sidebar links
@@ -68,17 +71,60 @@ document.addEventListener("DOMContentLoaded", async function () {
       "Error loading blog post...";
   }
 
-  // delete button
-  document.getElementById("delete-blog-btn").addEventListener("click", async function () {
+
+
+  const deleteButton = document.getElementById("delete-blog-btn");
+
+  try {
+    const token = localStorage.getItem("authToken");
+
+    if (token) {
+      try {
+        const validateToken = await fetch("/api/auth/verifyToken", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token }),
+        });
+
+        if (!validateToken.ok) {
+          throw new Error("Invalid token");
+        }
+
+        deleteButton.style.display = "block";
+      } catch (error) {
+        console.error("Token validation failed:", error);
+        deleteButton.style.display = "none";
+      }
+    } else {
+      deleteButton.style.display = "none";
+    }
+  } catch (error) {
+    console.error("localStorage not accessible/available:", error);
+    deleteButton.style.display = "none";
+  }
+
+  deleteButton.addEventListener("click", async function () {
+    console.log("Delete button pressed")
+    const token = localStorage.getItem("authToken");
+
     try {
-      const response = await fetch(`https://www.thebitbytebit.tech/api/blogs/${blogId}`, {
-        method: 'DELETE',
-      });
+      const response = await fetch(
+        `http://localhost:3000/api/blogs/${blogId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       if (!response.ok) {
         throw new Error("Failed to delete blog");
       }
-      
-      window.location.href = '/';
+      console.log("Blog deleted successfully");
+      window.location.href = "/";
     } catch (error) {
       console.error("Error deleting blog:", error);
     }

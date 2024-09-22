@@ -49,6 +49,7 @@ html {
 }
 
 .del-btn {
+  cursor: pointer;
   position: fixed;
   top: 90px;
   right: 25px;
