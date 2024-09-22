@@ -3,6 +3,10 @@ const Blog = require("../models/blog.model.js");
 
 const getBlogs = async (req, res) => {
   try {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
     const blogs = await Blog.find({});
     res.status(200).json(blogs);
   } catch (error) {

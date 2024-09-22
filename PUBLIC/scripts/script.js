@@ -38,7 +38,12 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-fetch("https://www.thebitbytebit.tech/api/blogs")
+fetch("https://www.thebitbytebit.tech/api/blogs", {
+  method: 'GET',
+  headers: {
+    'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
+  },
+})
   .then((res) => res.json())
   .then((data) => {
     if (data.length > 0) {
