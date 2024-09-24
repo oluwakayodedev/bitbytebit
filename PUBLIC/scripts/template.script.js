@@ -106,12 +106,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   deleteButton.addEventListener("click", async function () {
-    console.log("Delete button pressed")
     const token = localStorage.getItem("authToken");
 
     try {
       const response = await fetch(
-        `http://localhost:3000/api/blogs/${blogId}`,
+        `https://www.thebitbytebit.tech/api/blogs/${blogId}`,
         {
           method: "DELETE",
           headers: {
@@ -123,7 +122,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (!response.ok) {
         throw new Error("Failed to delete blog");
       }
-      console.log("Blog deleted successfully");
       window.location.href = "/";
     } catch (error) {
       console.error("Error deleting blog:", error);

@@ -1,4 +1,3 @@
-require("dotenv").config();
 const Blog = require("../models/blog.model.js");
 
 const getBlogs = async (req, res) => {
