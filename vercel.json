@@ -6,16 +6,16 @@
       "use": "@vercel/node"
     },
     {
-      "src": "public/**/*",
+      "src": "PUBLIC/**/*",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/server.js" },
-    { "src": "/signin", "dest": "/public/login.html" },
-    { "src": "/publishBlog", "dest": "/public/publishBlog.html" },
-    { "src": "/blog/(.*)", "dest": "/public/template.html" },
-    { "src": "/view-all-blog", "dest": "/public/viewall.html" },
-    { "src": "/(.*)", "dest": "/public/$1" }
+    { "src": "/signin", "dest": "/PUBLIC/login.html" },
+    { "src": "/publishBlog", "dest": "/PUBLIC/publishBlog.html" },
+    { "src": "/blog/(.*)", "dest": "/PUBLIC/template.html" },
+    { "src": "/view-all-blog", "dest": "/PUBLIC/viewall.html" },
+    { "src": "/(.*)", "dest": "/PUBLIC/$1" }
   ]
 }
