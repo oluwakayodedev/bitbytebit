@@ -11,25 +11,80 @@
     />
     <link rel="stylesheet" href="./styles/styles.css" />
     <title>bitbytebit.inc</title>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const year = document.querySelector("#yearUpd");
+        // get current year
+        const currentYr = new Date().getFullYear();
+
+        year.textContent = currentYr;
+
+        // signin or publish button area
+        const fixedButton = document.getElementById("fixed-button");
+
+        async function isUserLoggedIn() {
+          const token = localStorage.getItem("authToken");
+          if (!token) return false;
+
+          try {
+            const response = await fetch("/api/auth/verifyToken", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ token }),
+            });
+            const data = await response.json();
+            if (!data.valid) {
+              localStorage.removeItem("authToken");
+              return false;
+            }
+            return true;
+          } catch (error) {
+            console.error("Err verifying token:", error);
+            localStorage.removeItem("authToken");
+            return false;
+          }
+        }
+
+        fixedButton.addEventListener("click", async function (event) {
+          event.preventDefault();
+
+          const isLoggedIn = await isUserLoggedIn();
+          console.log("User logged in:", isLoggedIn);
+          if (await isUserLoggedIn()) {
+            window.location.href = "/publishBlog";
+          } else {
+            window.location.href = "/signin";
+          }
+        });
+      });
+    </script>
   </head>
   <body>
     <header>
-        <div class="container">
-          <div class="logo">
-            <h2>bitbytebit.inc</h2>
-          </div>
-          <div class="nav-icon" id="menu-icon">
-            <img src="./assets/images/menu.svg" alt="" />
-          </div>
+      <div class="container">
+        <div class="logo">
+          <h2>bitbytebit.inc</h2>
         </div>
+        <div class="nav-icon" id="menu-icon">
+          <img src="./assets/images/menu.svg" alt="" />
+        </div>
+      </div>
     </header>
 
     <nav id="nav-menu" class="hidden">
-      <img src="./assets/images/close.svg" alt="close" id="close-btn" class="close-btn">
+      <img
+        src="./assets/images/close.svg"
+        alt="close"
+        id="close-btn"
+        class="close-btn"
+      />
       <div class="my-nav-area">
         <div class="search-container">
-          <input type="text" placeholder="SEARCH..." class="search-input">
-          <img src="./assets/images/search.svg" alt="search" id="search-icon">
+          <input type="text" placeholder="SEARCH..." class="search-input" />
+          <img src="./assets/images/search.svg" alt="search" id="search-icon" />
         </div>
         <ul>
           <li><a href="/">Home</a></li>
@@ -54,10 +109,12 @@
       <a class="view-all" href="/view-all-blog">View all...</a>
     </div>
     <div class="fixed-buttons">
-      <a id="fixed-button" href=""><img src="./assets/images/add.svg" class="floating-menu" /></a>
+      <a id="fixed-button" href="#"
+        ><img src="./assets/images/add.svg" class="floating-menu"
+      /></a>
     </div>
     <footer>
-      <p>© 2023 bitbytebit.inc All Rights Reserved</p>
+      <p>©<span id="yearUpd"></span> bitbytebit.inc All Rights Reserved</p>
     </footer>
   </body>
   <script src="./scripts/script.js" async></script>
