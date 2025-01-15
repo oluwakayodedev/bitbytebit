@@ -71,8 +71,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       "Error loading blog post...";
   }
 
-
-
+  const editButton = document.getElementById("edit-blog-btn");
   const deleteButton = document.getElementById("delete-blog-btn");
 
   try {
@@ -92,18 +91,26 @@ document.addEventListener("DOMContentLoaded", async function () {
           throw new Error("Invalid token");
         }
 
+        editButton.style.display = "block";
         deleteButton.style.display = "block";
       } catch (error) {
         console.error("Token validation failed:", error);
+        editButton.style.display = "none";
         deleteButton.style.display = "none";
       }
     } else {
+      editButton.style.display = "none";
       deleteButton.style.display = "none";
     }
   } catch (error) {
     console.error("localStorage not accessible/available:", error);
+    editButton.style.display = "none";
     deleteButton.style.display = "none";
   }
+
+  editButton.addEventListener("click", function () {
+    window.location.href = `/editBlog/${blogId}`;
+  });
 
   deleteButton.addEventListener("click", async function () {
     const token = localStorage.getItem("authToken");
