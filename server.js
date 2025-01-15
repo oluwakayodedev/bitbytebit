@@ -10,7 +10,7 @@
   // middleware
   app.use(express.json());
   app.use(bodyParser.json());
-  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(path.join(__dirname, 'PUBLIC')));
   app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Cache-Control');
@@ -24,24 +24,27 @@
 
 
   app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'PUBLIC', 'index.html'));
   });
   app.get('/signin', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+    res.sendFile(path.join(__dirname, 'PUBLIC', 'login.html'));
   });
   app.get('/publishBlog', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'publishBlog.html'));
+    res.sendFile(path.join(__dirname, 'PUBLIC', 'publishBlog.html'));
   });
   app.get('/blog/:id', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'template.html'));
+    res.sendFile(path.join(__dirname, 'PUBLIC', 'template.html'));
   });
   app.get('/view-all-blog', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'viewall.html'));
+    res.sendFile(path.join(__dirname, 'PUBLIC', 'viewall.html'));
+  });
+  app.get('/editBlog/:id', (req, res) => {
+    res.sendFile(path.join(__dirname, 'PUBLIC', 'editBlog.html'));
   });
 
 
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'PUBLIC', 'index.html'));
   });
 
   // connect to DB and run server
