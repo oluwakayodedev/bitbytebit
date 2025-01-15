@@ -15,9 +15,11 @@
                 <label for="description">Description</label>
                 <textarea id="description" name="description"></textarea>
 
-                <label for="headerImage">Header Image</label>
-                <input type="file" id="headerImage" name="headerImage" accept=".png, .jpeg, .jpg, .webp" required>
-
+                <div class="headerImageArea">
+                    <label for="headerImage">Header Image</label>
+                    <img id="headerImagePreview" src="" alt="header image" style="max-width: 100%; height: auto; margin-bottom: 10px;">
+                    <input type="file" id="headerImage" name="headerImage" accept=".png, .jpeg, .jpg, .webp" required>
+                </div>
                 <div class="contents">
                     <label>Contents</label>
                     <div class="section-header">
@@ -25,26 +27,10 @@
                         <button type="button" id="addSectionButton">+</button>
                     </div>
                     <div class="sections">
-                        <div class="section">
-                            <details open>
-                                <summary>Section One:</summary>
-                                <label for="sectionTitle">Section Title:</label>
-                                <input type="text" id="sectionTitle" name="sectionTitle">
-                                
-                                <div class="editor-toolbar">
-                                    <button type="button" class="boldBtn"><img src="./assets/images/bold.svg" alt="Bold"></button>
-                                    <button type="button" class="italicBtn"><img src="./assets/images/italic.svg" alt="Italic" class="italic"></button>
-                                    <button type="button" class="quoteBtn"><img src="./assets/images/quote.svg" alt="Quote"></button>
-                                    <button type="button" class="imageBtn"><img src="./assets/images/image.svg" alt="Add Image" class="pic"></button>
-                                    <input type="file" class="imageUpload" accept="image/*" style="display: none;">
-                                </div>                            
-                                
-                                <div class="sectionContent" contenteditable="true" placeholder="Write your content here..."></div>
-                            </details>
-                        </div>
+                        <!-- sections goes into this area, auto populated -->
                     </div>
                 </div>
-                <button type="submit" id="submitForm">Publish</button>
+                <button type="submit" id="submitForm">Save</button>
                 <div class="pgr-btn">
                     <div class="pgr-bar"></div>
                     <div class="pgr-pcnt"></div>
