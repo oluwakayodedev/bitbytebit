@@ -5,6 +5,38 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Blog Post Editor</title>
         <link rel="stylesheet" href="/styles/publish.styles.css">
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const token = localStorage.getItem("authToken");
+
+                if (!token) {
+                    window.location.href = "/signin";
+                    return;
+                }
+
+                fetch("/api/auth/verifyToken", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: token,
+                    },
+                    body: JSON.stringify({ token }),
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (!data.valid) {
+                        localStorage.removeItem("authToken");
+                        console.log("Invalid Token, redirecting to /signin");
+                        window.location.href = "/signin";
+                    }
+                })
+                .catch((error) => {
+                    localStorage.removeItem("authToken");
+                    console.error("Token verification err:", error);
+                    window.location.href = "/signin";
+                });
+            });
+        </script>
     </head>
     <body>
         <div class="container">
