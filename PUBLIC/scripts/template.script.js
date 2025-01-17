@@ -48,6 +48,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const heading = document.createElement(`h${item.level}`);
         heading.textContent = item.text;
         heading.id = item.id; // ID for smooth scrolling
+        heading.classList.add("section-heading");
         contentContainer.appendChild(heading);
       } else if (item.type === "text") {
         const p = document.createElement("p");

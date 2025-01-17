@@ -133,6 +133,18 @@ html {
   background-color: var(--primary);
 }
 
+.section-heading {
+  position: relative;
+}
+
+.section-heading::before {
+  content: "";
+  display: block;
+  height: 80px;
+  margin-top: -80px;
+  visibility: hidden;
+}
+
 .content {
   width: 60%;
   padding: 3%;
