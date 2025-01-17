@@ -3,9 +3,13 @@
   const mongoose = require("mongoose");
   const path = require('path');
   const bodyParser = require('body-parser');
+  const compression = require('compression');
   const blogRoute = require("./routes/blog.route.js");
   const authRoute = require("./routes/auth.route.js");
+
   const app = express();
+
+  app.use(compression());
 
   // middleware
   app.use(express.json());
