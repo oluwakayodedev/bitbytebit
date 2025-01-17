@@ -100,7 +100,9 @@ html {
   padding: 3%;
   border-right: 1px solid #444;
   position: sticky;
-  top: 0;
+  top: 60px;
+  height: calc(100vh - 30px);
+  overflow-y: auto;
 }
 
 .sidebar ul {
@@ -211,6 +213,9 @@ blockquote span {
     border-bottom: 1px solid #444;
     position: relative;
     margin-bottom: 10px;
+    top: 0;
+    height: auto;
+    overflow-y: visible;
   }
 
   .content {
