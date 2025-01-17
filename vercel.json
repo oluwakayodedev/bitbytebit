@@ -16,6 +16,7 @@
     { "src": "/publishBlog", "dest": "/PUBLIC/publishBlog.html" },
     { "src": "/blog/(.*)", "dest": "/PUBLIC/template.html" },
     { "src": "/view-all-blog", "dest": "/PUBLIC/viewall.html" },
+    { "src": "/editBlog/(.*)", "dest": "/PUBLIC/editBlog.html"},
     { "src": "/(.*)", "dest": "/PUBLIC/$1" }
   ]
 }
