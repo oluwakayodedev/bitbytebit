@@ -4,6 +4,7 @@
   --dark: #000;
 }
 header {
+  font-family: "Saira Semi Condensed";
   position: fixed;
   top: 0;
   left: 0;

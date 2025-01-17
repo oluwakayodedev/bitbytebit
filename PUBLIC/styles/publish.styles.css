@@ -39,7 +39,7 @@ html {
 }
 
 .container {
-  margin: 20px auto;
+  margin: 40px auto auto auto;
   padding: 10px;
 }
 
@@ -235,6 +235,10 @@ textarea.sectionContent::placeholder {
 }
 
 @media (max-width: 768px) {
+  .container {
+    margin: 70px auto auto auto;
+  }
+
   .pgr-btn{
   width: 50%;
   }

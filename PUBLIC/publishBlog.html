@@ -4,9 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Post Editor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Saira+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&family=Space+Grotesk:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./styles/publish.styles.css">
+    <link rel="stylesheet" href="/styles/header.css">
 </head>
 <body>
+    <header>
+        <nav>
+          <div id="container">
+            <div class="logo">
+              <h2><a href="/">bitbytebit.inc</a></h2>
+            </div>
+            <div class="nav-icon">
+              <svg enable-background="new 0 0 32 32" height="32px" viewBox="0 0 32 32" width="27px" xmlns="http://www.w3.org/2000/svg">
+                <g>
+                  <path d="M1,10h30c0.552,0,1-0.448,1-1c0-0.552-0.448-1-1-1H1C0.448,8,0,8.448,0,9C0,9.552,0.448,10,1,10z" fill="#fffef0"/>
+                  <path d="M31,15H1c-0.552,0-1,0.448-1,1c0,0.552,0.448,1,1,1h30c0.552,0,1-0.448,1-1C32,15.448,31.552,15,31,15z" fill="#fffef0"/>
+                  <path d="M31,22H11c-0.552,0-1,0.448-1,1s0.448,1,1,1h20c0.552,0,1-0.448,1-1S31.552,22,31,22z" fill="#fffef0"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </nav>
+    </header>
     <div class="container">
         <form action="/api/blogs" id="blogForm" method="POST" enctype="multipart/form-data">
             <label for="title">Title</label>
