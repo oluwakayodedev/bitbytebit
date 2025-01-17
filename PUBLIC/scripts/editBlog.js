@@ -18,6 +18,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById("title").value = blogData.title;
     document.getElementById("description").value = blogData.description;
 
+    const blogTitle = blogData.title;
+    const siteName = "bitbytebit.hub";
+    document.title = `Editing: ${blogTitle} | ${siteName}`;
+
     // set current header image
     const headerImagePreview = document.getElementById("headerImagePreview");
     headerImagePreview.src = blogData.headerImage;

@@ -19,6 +19,10 @@ document.addEventListener("DOMContentLoaded", async function () {
       blogData.description;
     document.getElementById("header-image").src = blogData.headerImage;
 
+    const blogTitle = blogData.title;
+    const siteName = "bitbytebit.hub";
+    document.title = `${blogTitle} — ${siteName}`;
+
     // inject sidebar links
     const sidebarLinks = document.getElementById("sidebar-links");
     blogData.sidebarLinks.forEach((link) => {
@@ -87,9 +91,9 @@ document.addEventListener("DOMContentLoaded", async function () {
           body: JSON.stringify({ token }),
         });
 
-        if (!validateToken.ok) {
-          throw new Error("Invalid token");
-        }
+        // if (!validateToken.ok) {
+        //   throw new Error("Invalid token");
+        // }
 
         editButton.style.display = "block";
         deleteButton.style.display = "block";
