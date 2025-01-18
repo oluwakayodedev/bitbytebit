@@ -116,31 +116,21 @@ document.addEventListener("DOMContentLoaded", async function () {
       const italicBtns = container.querySelectorAll(".italicBtn");
       const imageBtns = container.querySelectorAll(".imageBtn");
     
-      function wrapSelection(tag) {
+      function toggleStyle(tag) {
         const selection = window.getSelection();
         if (!selection.rangeCount) return;
-    
-        const range = selection.getRangeAt(0);
-        const selectedText = range.extractContents();
-        const span = document.createElement("span");
-    
-        if (tag === "bold") {
-          span.style.fontWeight = "bold";
-        } else if (tag === "italic") {
-          span.style.fontStyle = "italic";
-        }
-    
-        span.appendChild(selectedText);
-        range.insertNode(span);
-        selection.removeAllRanges();
+      
+        const command = tag === "bold" ? "bold" : "italic";
+        // execCommand is now on the brim of death, but i trust https://stackoverflow.com/a/70831583
+        document.execCommand(command, false, null);
       }
-    
+      
       boldBtns.forEach((btn) => {
-        btn.addEventListener("click", () => wrapSelection("bold"));
+        btn.addEventListener("click", () => toggleStyle("bold"));
       });
-    
+      
       italicBtns.forEach((btn) => {
-        btn.addEventListener("click", () => wrapSelection("italic"));
+        btn.addEventListener("click", () => toggleStyle("italic"));
       });
     
       imageBtns.forEach((btn) => {
