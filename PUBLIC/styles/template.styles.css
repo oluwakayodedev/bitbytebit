@@ -161,6 +161,7 @@ html {
 
 .content p {
   margin-bottom: 20px;
+  line-height: 1.6;
   text-align: justify;
 }
 
@@ -171,20 +172,19 @@ html {
 }
 
 blockquote p {
-  font-family: "Lota Grotesque Semi Bold";
+  font-family: "Lota Grotesque Semi Bold It";
   font-weight: 600;
   font-size: 2rem;
   border-left: 2px solid #ccc;
-  margin-bottom: 0 !important;
   padding-left: 16px;
-  color: #717171;
+  color: #555;
   text-align: left !important;
 }
 blockquote span {
-  margin-top: 1%;
+  margin-top: 2%;
   white-space: pre;
-  font-family: "Noto Sans";
-  font-size: 1rem;
+  font-family: "saira semi condensed";
+  font-size: 1.5rem;
   display: block;
   font-style: italic;
 }
