@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         attachImageUploadListener(section);
       });
     }
-    
+
     function attachImageUploadListener(section) {
       const imageBtn = section.querySelector(".imageBtn");
       const imageUpload = section.querySelector(".imageUpload");
@@ -207,37 +207,47 @@ document.addEventListener("DOMContentLoaded", async function () {
       formData.append("file", headerImageInput.files[0]);
       formData.append("upload_preset", "myuploadpreset");
 
-      const xhr = new XMLHttpRequest();
+      // check if a new headerImage is uploaded
+      if (headerImageInput.files.length > 0) {
+        const formData = new FormData();
+        formData.append("file", headerImageInput.files[0]);
+        formData.append("upload_preset", "myuploadpreset");
+      
+        const xhr = new XMLHttpRequest();
 
-      // track image upload progress using 80% of the progress bar
-      xhr.upload.addEventListener("progress", function (event) {
-        if (event.lengthComputable) {
-          const percentComplete = Math.round((event.loaded / event.total) * 80);
-          progressBar.style.width = percentComplete + "%";
-          progressText.textContent = `${percentComplete}%`;
-        }
-      });
+        // track image upload progress using 80% of the progress bar
+        xhr.upload.addEventListener("progress", function (event) {
+          if (event.lengthComputable) {
+            const percentComplete = Math.round((event.loaded / event.total) * 80);
+            progressBar.style.width = percentComplete + "%";
+            progressText.textContent = `${percentComplete}%`;
+          }
+        });
 
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          // get uploaded image URL
-          const headerImageData = JSON.parse(xhr.responseText);
-          const headerImageUrl = headerImageData.secure_url;
-          submitBlogContent(headerImageUrl, title, description);
-        } else if (xhr.readyState === 4 && xhr.status !== 200) {
-          console.error("err uploading image:", xhr.responseText);
-          saveButton.style.display = "block";
-          uploadContainer.style.display = "none";
-        }
-      };
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            // get uploaded image URL
+            const headerImageData = JSON.parse(xhr.responseText);
+            const headerImageUrl = headerImageData.secure_url;
+            submitBlogContent(headerImageUrl, title, description);
+          } else if (xhr.readyState === 4 && xhr.status !== 200) {
+            console.error("err uploading image:", xhr.responseText);
+            saveButton.style.display = "block";
+            uploadContainer.style.display = "none";
+          }
+        };
 
-      // upload image request
-      xhr.open(
-        "POST",
-        "https://api.cloudinary.com/v1_1/dxjeykfd8/image/upload",
-        true
-      );
-      xhr.send(formData);
+        // upload image request
+        xhr.open(
+          "POST",
+          "https://api.cloudinary.com/v1_1/dxjeykfd8/image/upload",
+          true
+        );
+        xhr.send(formData);
+      } else {
+        // use existing headerImage if no new image is uploadeded
+        submitBlogContent(blogData.headerImage, title, description);
+      }
     });
 
     function submitBlogContent(headerImageUrl, title, description) {
@@ -294,7 +304,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
       });
 
-      xhr.open("PUT", `https://www.thebitbytebit.tech/api/blogs/${blogId}`, true);
+      xhr.open("PUT", `/api/blogs/${blogId}`, true);
       xhr.setRequestHeader("Content-Type", "application/json");
 
       xhr.onreadystatechange = function () {
@@ -305,7 +315,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           const blogId = response._id;
 
           if (blogId) {
-            window.location.href = `https://www.thebitbytebit.tech/blog/${blogId}`;
+            window.location.href = `/blog/${blogId}`;
           } else {
             console.error("blogId not found in response.");
           }
