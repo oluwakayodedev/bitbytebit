@@ -114,6 +114,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     function attachEditorToolbarListeners(container) {
       const boldBtns = container.querySelectorAll(".boldBtn");
       const italicBtns = container.querySelectorAll(".italicBtn");
+      const quoteBtns = container.querySelectorAll(".quoteBtn");
       const imageBtns = container.querySelectorAll(".imageBtn");
     
       function toggleStyle(tag) {
@@ -132,7 +133,40 @@ document.addEventListener("DOMContentLoaded", async function () {
       italicBtns.forEach((btn) => {
         btn.addEventListener("click", () => toggleStyle("italic"));
       });
-    
+
+      quoteBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const selection = window.getSelection();
+          if (!selection.rangeCount) return;
+
+          const range = selection.getRangeAt(0);
+          const blockquote = document.createElement("blockquote");
+          const paragraph = document.createElement("p");
+          const span = document.createElement("span");
+          span.textContent = " — Author Name";
+
+          // existing text selection
+          if (!range.collapsed) {
+            const quoteText = range.toString();
+            paragraph.textContent = quoteText;
+            paragraph.appendChild(span);
+            blockquote.appendChild(paragraph);
+            range.deleteContents();
+          } else {
+            paragraph.innerHTML = `"Enter your quote here."`;
+            paragraph.appendChild(span);
+            blockquote.appendChild(paragraph);
+          }
+
+          range.insertNode(blockquote);
+
+          range.setStartAfter(blockquote);
+          range.collapse(true);
+          selection.removeAllRanges();
+          selection.addRange(range);
+        });
+      });
+
       imageBtns.forEach((btn) => {
         const section = btn.closest(".section");
         attachImageUploadListener(section);
@@ -294,7 +328,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
       });
 
-      xhr.open("PUT", `https://www.thebitbytebit.tech/api/blogs/${blogId}`, true);
+      xhr.open("PUT", `/api/blogs/${blogId}`, true);
       xhr.setRequestHeader("Content-Type", "application/json");
 
       xhr.onreadystatechange = function () {
@@ -305,7 +339,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           const blogId = response._id;
 
           if (blogId) {
-            window.location.href = `https://www.thebitbytebit.tech/blog/${blogId}`;
+            window.location.href = `/blog/${blogId}`;
           } else {
             console.error("blogId not found in response.");
           }
