@@ -90,31 +90,102 @@ document.addEventListener("DOMContentLoaded", async function () {
       const sectionElement = document.createElement("div");
       sectionElement.classList.add("section");
       sectionElement.innerHTML = `
-                  <details ${index === 0 ? "open" : ""}>
-                      <summary>Section ${index + 1}:</summary>
-                      <label for="sectionTitle${
-                        index + 1
-                      }">Section Title:</label>
-                      <input type="text" id="sectionTitle${
-                        index + 1
-                      }" name="sectionTitle[]" value="${section.heading}">
-                      
-                      <div class="editor-toolbar">
-                          <button type="button" class="boldBtn"><img src="/assets/images/bold.svg" alt="Bold"></button>
-                          <button type="button" class="italicBtn"><img src="/assets/images/italic.svg" alt="Italic" class="italic"></button>
-                          <button type="button" class="quoteBtn"><img src="/assets/images/quote.svg" alt="Quote"></button>
-                          <button type="button" class="imageBtn"><img src="/assets/images/image.svg" alt="Add Image" class="pic"></button>
-                          <input type="file" class="imageUpload" accept="image/*" style="display: none;">
-                      </div>
-                      
-                      <div class="sectionContent" contenteditable="true" placeholder="Write your content here...">${
-                        section.content
-                      }</div>
-                  </details>
-              `;
+          <details ${index === 0 ? "open" : ""}>
+              <summary>Section ${index + 1}:</summary>
+              <label for="sectionTitle${index + 1}">Section Title:</label>
+              <input type="text" id="sectionTitle${index + 1}" name="sectionTitle[]" value="${section.heading}">
+              
+              <div class="editor-toolbar">
+                  <button type="button" class="boldBtn"><img src="/assets/images/bold.svg" alt="Bold"></button>
+                  <button type="button" class="italicBtn"><img src="/assets/images/italic.svg" alt="Italic" class="italic"></button>
+                  <button type="button" class="quoteBtn"><img src="/assets/images/quote.svg" alt="Quote"></button>
+                  <button type="button" class="imageBtn"><img src="/assets/images/image.svg" alt="Add Image" class="pic"></button>
+                  <input type="file" class="imageUpload" accept="image/*" style="display: none;">
+              </div>
+              
+              <div class="sectionContent" contenteditable="true" placeholder="Write your content here...">${section.content}</div>
+          </details>
+      `;
       sectionsContainer.appendChild(sectionElement);
+
+      attachEditorToolbarListeners(sectionElement);
     });
 
+    function attachEditorToolbarListeners(container) {
+      const boldBtns = container.querySelectorAll(".boldBtn");
+      const italicBtns = container.querySelectorAll(".italicBtn");
+      const imageBtns = container.querySelectorAll(".imageBtn");
+    
+      function wrapSelection(tag) {
+        const selection = window.getSelection();
+        if (!selection.rangeCount) return;
+    
+        const range = selection.getRangeAt(0);
+        const selectedText = range.extractContents();
+        const span = document.createElement("span");
+    
+        if (tag === "bold") {
+          span.style.fontWeight = "bold";
+        } else if (tag === "italic") {
+          span.style.fontStyle = "italic";
+        }
+    
+        span.appendChild(selectedText);
+        range.insertNode(span);
+        selection.removeAllRanges();
+      }
+    
+      boldBtns.forEach((btn) => {
+        btn.addEventListener("click", () => wrapSelection("bold"));
+      });
+    
+      italicBtns.forEach((btn) => {
+        btn.addEventListener("click", () => wrapSelection("italic"));
+      });
+    
+      imageBtns.forEach((btn) => {
+        const section = btn.closest(".section");
+        attachImageUploadListener(section);
+      });
+    }
+    
+    function attachImageUploadListener(section) {
+      const imageBtn = section.querySelector(".imageBtn");
+      const imageUpload = section.querySelector(".imageUpload");
+    
+      if (imageBtn && imageUpload) {
+        imageBtn.addEventListener("click", () => {
+          imageUpload.click();
+        });
+    
+        imageUpload.addEventListener("change", (event) => {
+          const file = event.target.files[0];
+          if (file) {
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", "myuploadpreset");
+    
+            fetch("https://api.cloudinary.com/v1_1/dxjeykfd8/image/upload", {
+              method: "POST",
+              body: formData,
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                const imageUrl = data.secure_url;
+                const img = document.createElement("img");
+                img.src = imageUrl;
+                img.style.maxWidth = "100%";
+                img.alt = "Inserted Image";
+    
+                const contentEditableDiv = section.querySelector(".sectionContent");
+                contentEditableDiv.appendChild(img);
+              })
+              .catch((err) => console.error("Error uploading to Cloudinary:", err));
+          }
+        });
+      }
+    }
+    
     // edited form submission
     const blogForm = document.getElementById("blogForm");
     const saveButton = document.getElementById("submitForm");
