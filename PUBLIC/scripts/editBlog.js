@@ -304,7 +304,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
       });
 
-      xhr.open("PUT", `/api/blogs/${blogId}`, true);
+      xhr.open("PUT", `https://www.thebitbytebit.tech/api/blogs/${blogId}`, true);
       xhr.setRequestHeader("Content-Type", "application/json");
 
       xhr.onreadystatechange = function () {
@@ -315,7 +315,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           const blogId = response._id;
 
           if (blogId) {
-            window.location.href = `/blog/${blogId}`;
+            window.location.href = `https://www.thebitbytebit.tech/blog/${blogId}`;
           } else {
             console.error("blogId not found in response.");
           }
