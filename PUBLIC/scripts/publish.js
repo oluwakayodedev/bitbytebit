@@ -89,6 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function attachEditorToolbarListeners(container) {
   const boldBtns = container.querySelectorAll(".boldBtn");
   const italicBtns = container.querySelectorAll(".italicBtn");
+  const quoteBtns = container.querySelectorAll(".quoteBtn");
   const imageBtns = container.querySelectorAll(".imageBtn");
 
   // wrap selected text in HTML tag
@@ -107,6 +108,39 @@ function attachEditorToolbarListeners(container) {
   
   italicBtns.forEach((btn) => {
     btn.addEventListener("click", () => toggleStyle("italic"));
+  });
+
+  quoteBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const selection = window.getSelection();
+      if (!selection.rangeCount) return;
+
+      const range = selection.getRangeAt(0);
+      const blockquote = document.createElement("blockquote");
+      const paragraph = document.createElement("p");
+      const span = document.createElement("span");
+      span.textContent = " — Author Name";
+
+      // existing text selection
+      if (!range.collapsed) {
+        const quoteText = range.toString();
+        paragraph.textContent = quoteText;
+        paragraph.appendChild(span);
+        blockquote.appendChild(paragraph);
+        range.deleteContents();
+      } else {
+        paragraph.innerHTML = `"Enter your quote here."`;
+        paragraph.appendChild(span);
+        blockquote.appendChild(paragraph);
+      }
+
+      range.insertNode(blockquote);
+
+      range.setStartAfter(blockquote);
+      range.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    });
   });
 
   imageBtns.forEach((btn) => {
