@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             blockquote.appendChild(paragraph);
             range.deleteContents();
           } else {
-            paragraph.innerHTML = `"Enter your quote here."`;
+            paragraph.innerHTML = `“Enter your quote here.”`;
             paragraph.appendChild(span);
             blockquote.appendChild(paragraph);
           }

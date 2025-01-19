@@ -172,7 +172,7 @@ html {
 }
 
 blockquote p {
-  font-family: "Lota Grotesque Semi Bold It";
+  font-family: "Lota Grotesque Semi Bold";
   font-weight: 600;
   font-size: 2rem;
   border-left: 2px solid #ccc;
@@ -186,6 +186,7 @@ blockquote span {
   font-family: "saira semi condensed";
   font-size: 1.5rem;
   display: block;
+  color: #ccc;
   font-style: italic;
 }
 
