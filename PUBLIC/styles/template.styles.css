@@ -219,6 +219,10 @@ blockquote span {
     overflow-y: visible;
   }
 
+  .icon {
+    content: url("../assets/images/down-arrow.svg");
+  }
+
   .content {
     width: 100%;
   }
