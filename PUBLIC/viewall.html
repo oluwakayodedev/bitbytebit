@@ -10,6 +10,55 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles/styles.css" />
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const year = document.querySelector("#yearUpd");
+        // get current year
+        const currentYr = new Date().getFullYear();
+
+        year.textContent = currentYr;
+
+        // signin or publish button area
+        const fixedButton = document.getElementById("fixed-button");
+
+        async function isUserLoggedIn() {
+          const token = localStorage.getItem("authToken");
+          if (!token) return false;
+
+          try {
+            const response = await fetch("/api/auth/verifyToken", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ token }),
+            });
+            const data = await response.json();
+            if (!data.valid) {
+              localStorage.removeItem("authToken");
+              return false;
+            }
+            return true;
+          } catch (error) {
+            console.error("Err verifying token:", error);
+            localStorage.removeItem("authToken");
+            return false;
+          }
+        }
+
+        fixedButton.addEventListener("click", async function (event) {
+          event.preventDefault();
+
+          const isLoggedIn = await isUserLoggedIn();
+          console.log("User logged in:", isLoggedIn);
+          if (await isUserLoggedIn()) {
+            window.location.href = "/publishBlog";
+          } else {
+            window.location.href = "/signin";
+          }
+        });
+      });
+    </script>
     <title>View all Blogs | bitbytebit.hub</title>
   </head>
   <body>
@@ -55,7 +104,7 @@
       /></a>
     </div>
     <footer>
-      <p>© 2023 bitbytebit.inc All Rights Reserved</p>
+      <p>©<span id="yearUpd"></span> bitbytebit.inc All Rights Reserved</p>
     </footer>
   </body>
   <script src="./scripts/viewall.script.js" async></script>
