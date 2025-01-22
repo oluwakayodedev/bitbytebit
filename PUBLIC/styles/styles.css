@@ -62,108 +62,15 @@ header .container {
   font-weight: 600;
 }
 
-.nav-icon {
+.gh-icon {
   color: var(--secondary);
   cursor: pointer;
-  transition: color 0.3s, transform 0.3s;
 }
 
-.nav-icon:hover {
+.gh-icon:hover {
   color: var(--primary);
   transform: scale(0.96);
 }
-
-/* hidden nav */
-nav.hidden {
-  display: none;
-}
-.close-btn {
-  height: 40px;
-  color: var(--secondary);
-  cursor: pointer;
-  transition: color 0.3s, transform 0.3s;
-  float: right;
-}
-nav {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  width: 25vw;
-  background: rgb(0 0 0 / 91%);
-  backdrop-filter: blur(2px);
-  padding: 20px 10px;
-  z-index: 99999;
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
-}
-nav ul {
-  list-style-type: none;
-  margin-top: 2rem;
-  padding: 0;
-  text-align: center;
-}
-nav ul li {
-  padding-top: 1rem;
-  font-size: 2rem;
-  cursor: pointer;
-  width: fit-content;
-  margin: 0 auto;
-  display: block;
-  position: relative;
-}
-
-nav ul li::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 0;
-  height: 4px;
-  background-color: var(--primary);
-  transition: width 0.4s ease-out;
-}
-
-nav ul li:hover::after {
-  width: 100%;
-}
-
-.search-container {
-  display: flex;
-  align-items: center;
-  background-color: var(--primary);
-  padding: 15px 25px;
-  width: 250px;
-  position: relative;
-}
-.search-input {
-  border: none;
-  outline: none;
-  background: none;
-  color: var(--dark);
-  flex: 1;
-}
-.search-container input[type="text"]{
-  font-family: "Saira Semi Condensed", "Poppins", sans-serif;
-  font-size: 15px;
-}
-.search-input::placeholder {
-  color: (var(--dark));
-  font-style: inherit;
-}
-.search-container img {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
-nav.active {
-  transform: translateX(0);
-} 
-.my-nav-area {
-  padding-left: 10px;
-  font-family: "Lota Grotesque Semi Bold";
-}
-
 
 main {
   padding: 2% 3%;
