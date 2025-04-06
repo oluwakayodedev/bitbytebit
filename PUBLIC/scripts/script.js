@@ -27,10 +27,10 @@ fetch("/api/blogs")
   })
   .catch((error) => console.error("Failed to fetch blogs:", error));
 
-  function renderFeaturedBlog(blog) {
-    const largeArea = document.querySelector("#largearea");
-    
-    largeArea.innerHTML = `
+function renderFeaturedBlog(blog) {
+  const largeArea = document.querySelector("#largearea");
+
+  largeArea.innerHTML = `
       <a href="/blog/${blog._id}">
         <div class="image-container">
           <img src="${blog.headerImage}" alt="${blog.title}" loading="eager" />
@@ -44,14 +44,14 @@ fetch("/api/blogs")
         </div>
       </a>
     `;
-  }
-  
-  function renderGridItems(blogs) {
-    const gridContainer = document.querySelector("#grid-container");
-    let gridHTML = '';
-    
-    blogs.forEach((blog) => {
-      gridHTML += `
+}
+
+function renderGridItems(blogs) {
+  const gridContainer = document.querySelector("#grid-container");
+  let gridHTML = '';
+
+  blogs.forEach((blog) => {
+    gridHTML += `
         <a href="/blog/${blog._id}">
           <article class="grid-item">
             <img src="${blog.headerImage}" alt="${blog.title}" loading="lazy" />
@@ -60,7 +60,7 @@ fetch("/api/blogs")
           </article>
         </a>
       `;
-    });
-    
-    gridContainer.innerHTML = gridHTML;
-  }
+  });
+
+  gridContainer.innerHTML = gridHTML;
+}
