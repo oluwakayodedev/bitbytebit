@@ -172,9 +172,12 @@ function setupAdminButtons(isAdmin, blogId, editButton, deleteButton) {
   editButton.style.display = "block";
   deleteButton.style.display = "block";
   
-  editButton.onclick = () => window.location.href = `/editBlog/${blogId}`;
+  editButton.addEventListener("click", () => {
+    window.location.href = `/editBlog/${blogId}`;
+  });
   
-  deleteButton.onclick = async () => {
+  
+  deleteButton.addEventListener("click", async () => {
     try {
       const token = localStorage.getItem("authToken");
       if (!token) throw new Error("No auth token found");
@@ -194,5 +197,5 @@ function setupAdminButtons(isAdmin, blogId, editButton, deleteButton) {
       console.error("Error deleting blog:", error);
       alert("Failed to delete blog. Please try again.");
     }
-  };
+  });
 }
