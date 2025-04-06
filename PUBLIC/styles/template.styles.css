@@ -4,6 +4,7 @@
     format("opentype");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -50,6 +51,7 @@ html {
 
 .floating-btn {
   background-color: var(--dark);
+  transition: transform 0.2s ease;
 }
 
 .edit-btn {
@@ -70,6 +72,7 @@ html {
 
 .header {
   padding: 3%;
+  min-height: 300px;
 }
 .header h1 {
   font-family: "Lota Grotesque Semi Bold";
@@ -87,6 +90,7 @@ html {
   display: block;
   margin: 0 auto;
 }
+
 
 .container {
   display: flex;
@@ -171,22 +175,27 @@ html {
   height: auto;
 }
 
-blockquote p {
-  font-family: "Lota Grotesque Semi Bold";
-  font-weight: 600;
-  font-size: 2rem;
-  border-left: 2px solid #ccc;
-  padding-left: 16px;
-  color: #555;
-  text-align: left !important;
+blockquote {
+  margin: 2em 0;
+  padding-left: 1em;
+  border-left: 3px solid var(--primary);
 }
+
+blockquote p {
+  font-family: var(--header-font);
+  font-weight: 600;
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  color: var(--quote-color);
+  text-align: left !important;
+  line-height: 1.4;
+}
+
 blockquote span {
-  margin-top: 2%;
-  white-space: pre;
-  font-family: "saira semi condensed";
-  font-size: 1.5rem;
+  margin-top: 0.8em;
+  font-family: var(--body-font);
+  font-size: clamp(1rem, 2vw, 1.5rem);
   display: block;
-  color: #ccc;
+  color: var(--quote-attribution);
   font-style: italic;
 }
 
