@@ -2,10 +2,8 @@ const Blog = require("../models/blog.model.js");
 
 const getBlogs = async (req, res) => {
   try {
-    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.set('Cache-Control', 'public, max-age=300');
 
-    res.set('Pragma', 'no-cache');
-    res.set('Expires', '0');
     const blogs = await Blog.find({});
     res.status(200).json(blogs);
   } catch (error) {
@@ -17,6 +15,9 @@ const getBlogById = async (req, res) => {
   try {
     const { id } = req.params;
     const blog = await Blog.findById(id);
+
+    res.set('Cache-Control', 'public, max-age=3600'); // Cache for 1 hour
+
     res.status(200).json(blog);
   } catch (error) {
     res.status(500).json({ message: error.message });

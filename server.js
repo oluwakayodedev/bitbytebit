@@ -9,7 +9,10 @@
 
   const app = express();
 
-  app.use(compression());
+  app.use(compression({
+    level: 6,
+    threshold: 0,
+  }));
 
   // middleware
   app.use(express.json());
@@ -20,7 +23,6 @@
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Cache-Control');
     next();
   });
-
 
   // routes
   app.use("/api/blogs", blogRoute);

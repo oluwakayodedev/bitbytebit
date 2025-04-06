@@ -1,10 +1,10 @@
-fetch("https://www.thebitbytebit.tech/api/blogs", {
-  method: 'GET',
-  headers: {
-    'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
-  },
-})
-  .then((res) => res.json())
+fetch("/api/blogs")
+  .then((res) => {
+    if (!res.ok) {
+      throw new Error("Network response not ok");
+    }
+    return res.json();
+  })
   .then((data) => {
     if (data.length > 0) {
       // sort blogs by modifed date to stay recent
@@ -16,61 +16,51 @@ fetch("https://www.thebitbytebit.tech/api/blogs", {
       const rand = Math.floor(Math.random() * recentBlogs.length);
       const randomBlog = recentBlogs[rand];
 
-      const link = document.createElement("a");
-      link.href = `/blog/${randomBlog._id}`;
+      // create featured blog section
+      renderFeaturedBlog(randomBlog);
 
-      const imageContainer = document.createElement("div");
-      imageContainer.classList.add("image-container");
-
-      const imgElement = document.createElement("img");
-      imgElement.src = randomBlog.headerImage;
-      imgElement.alt = "Blog Image";
-      imgElement.loading = "lazy";
-
-      const overlay = document.createElement("div");
-      overlay.classList.add("overlay");
-
-      const overlayText = document.createElement("div");
-      overlayText.classList.add("overlay-text");
-      overlayText.innerHTML = `
-        <p>Featured</p>
-        <h2>${randomBlog.title}</h2>
-        <p>${randomBlog.description}</p>
-      `;
-
-      overlay.appendChild(overlayText);
-      imageContainer.appendChild(imgElement);
-      imageContainer.appendChild(overlay);
-
-      link.appendChild(imageContainer);
-      document.querySelector("#largearea").appendChild(link);
-
-      // Display recent blogs in the grid
-      recentBlogs.forEach((blog) => {
-        const link = document.createElement("a");
-        link.href = `/blog/${blog._id}`;
-
-        const gridItem = document.createElement("article");
-        gridItem.classList.add("grid-item");
-
-        const imgElement = document.createElement("img");
-        imgElement.src = blog.headerImage;
-        imgElement.alt = blog.title;
-        imgElement.loading = "lazy";
-
-        const titleElement = document.createElement("h3");
-        titleElement.textContent = blog.title;
-
-        const descriptionElement = document.createElement("p");
-        descriptionElement.textContent = blog.description;
-
-        gridItem.appendChild(imgElement);
-        gridItem.appendChild(titleElement);
-        gridItem.appendChild(descriptionElement);
-        link.appendChild(gridItem);
-
-        document.querySelector("#grid-container").appendChild(link);
-      });
+      // create grid items with a small delay to prioritize above-the-fold content
+      setTimeout(() => {
+        renderGridItems(recentBlogs);
+      }, 100);
     }
   })
-  .catch((error) => console.log(error));
+  .catch((error) => console.error("Failed to fetch blogs:", error));
+
+  function renderFeaturedBlog(blog) {
+    const largeArea = document.querySelector("#largearea");
+    
+    largeArea.innerHTML = `
+      <a href="/blog/${blog._id}">
+        <div class="image-container">
+          <img src="${blog.headerImage}" alt="${blog.title}" loading="eager" />
+          <div class="overlay">
+            <div class="overlay-text">
+              <p>Featured</p>
+              <h2>${blog.title}</h2>
+              <p>${blog.description}</p>
+            </div>
+          </div>
+        </div>
+      </a>
+    `;
+  }
+  
+  function renderGridItems(blogs) {
+    const gridContainer = document.querySelector("#grid-container");
+    let gridHTML = '';
+    
+    blogs.forEach((blog) => {
+      gridHTML += `
+        <a href="/blog/${blog._id}">
+          <article class="grid-item">
+            <img src="${blog.headerImage}" alt="${blog.title}" loading="lazy" />
+            <h3>${blog.title}</h3>
+            <p>${blog.description}</p>
+          </article>
+        </a>
+      `;
+    });
+    
+    gridContainer.innerHTML = gridHTML;
+  }
