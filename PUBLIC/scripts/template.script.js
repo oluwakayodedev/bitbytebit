@@ -172,7 +172,10 @@ function setupAdminButtons(isAdmin, blogId, editButton, deleteButton) {
   editButton.style.display = "block";
   deleteButton.style.display = "block";
   
-  editButton.onclick = () => window.location.href = `/editBlog/${blogId}`;
+  editButton.addEventListener("click", () => {
+    window.location.href = `/editBlog/${blogId}`;
+  });
+  
   
   deleteButton.onclick = async () => {
     try {
