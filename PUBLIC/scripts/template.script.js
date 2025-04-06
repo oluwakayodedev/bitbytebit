@@ -177,7 +177,7 @@ function setupAdminButtons(isAdmin, blogId, editButton, deleteButton) {
   });
   
   
-  deleteButton.onclick = async () => {
+  deleteButton.addEventListener("click", async () => {
     try {
       const token = localStorage.getItem("authToken");
       if (!token) throw new Error("No auth token found");
@@ -197,5 +197,5 @@ function setupAdminButtons(isAdmin, blogId, editButton, deleteButton) {
       console.error("Error deleting blog:", error);
       alert("Failed to delete blog. Please try again.");
     }
-  };
+  });
 }
