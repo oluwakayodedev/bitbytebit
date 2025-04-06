@@ -1,3 +1,5 @@
+const API_URL = "https://www.thebitbytebit.tech";
+
 document.addEventListener("DOMContentLoaded", async function () {
   // extract id from URL
   const url = window.location.href;
@@ -43,7 +45,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 async function fetchBlogData(blogId) {
   const response = await fetch(
-    `https://www.thebitbytebit.tech/api/blogs/${blogId}`
+    `${API_URL}/api/blogs/${blogId}`
   );
   
   if (!response.ok) {
@@ -57,11 +59,14 @@ function updatePageMetadata(blogData) {
   document.getElementById("blog-title").textContent = blogData.title;
   document.getElementById("blog-description").textContent = blogData.description;
   
-  // optimizing image loading
   const headerImage = document.getElementById("header-image");
-  headerImage.loading = "eager";
-  headerImage.decoding = "async";
-  headerImage.src = blogData.headerImage;
+  const img = new Image();
+  img.onload = function() {
+    // set AR based on actual image dimensions
+    headerImage.style.aspectRatio = `${this.width}/${this.height}`;
+    headerImage.src = blogData.headerImage;
+  };
+  img.src = blogData.headerImage;
   
   // update page title dynamically
   document.title = `${blogData.title} — bitbytebit.hub`;
@@ -132,8 +137,6 @@ async function validateAdminAccess() {
   try {
     const token = localStorage.getItem("authToken");
     
-    if (!token) return false;
-    
     // verify token with timeout to prevent hanging
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 3000);
@@ -146,8 +149,13 @@ async function validateAdminAccess() {
     });
     
     clearTimeout(timeoutId);
-    return validateToken.ok;
+
+    if (!validateToken.ok){
+      localStorage.removeItem("authToken");
+      return false;
+    } 
     
+    return true;
   } catch (error) {
     console.warn("Admin validation failed:", error.message);
     return false;
@@ -172,7 +180,7 @@ function setupAdminButtons(isAdmin, blogId, editButton, deleteButton) {
       if (!token) throw new Error("No auth token found");
       
       const response = await fetch(
-        `https://www.thebitbytebit.tech/api/blogs/${blogId}`,
+        `${API_URL}/api/blogs/${blogId}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` }

@@ -9,6 +9,8 @@
     <link rel="preload" href="/styles/template.styles.css" as="style">
     <link rel="preload" href="/styles/header.css" as="style">
     <link rel="preload" href="/scripts/template.script.js" as="script">
+    <link rel="preload" href="../assets/fonts/LosAndesLotaGrotesqueSemiBold.otf" as="font" type="font/otf" crossorigin>
+    <link rel="preload" href="../assets/fonts/LosAndeLotaGrotesqueSemiBoldItalic.otf" as="font" type="font/otf" crossorigin>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -57,7 +59,7 @@
       </div>
       <h1 id="blog-title"></h1>
       <p id="blog-description"></p>
-      <img id="header-image" src="" alt="Header Image" />
+      <img id="header-image" src="" alt="Header Image" width="100%" height="auto" style="aspect-ratio: 16/9;" />
     </div>
 
     <main class="container">
@@ -70,6 +72,12 @@
       </div>
     </main>
 
-    <script src="/scripts/template.script.js"></script>
+    <script src="/scripts/template.script.js" defer></script>
+    <script>
+      // show content once everything is loaded
+      window.addEventListener('load', () => {
+        document.body.style.opacity = 1;
+      });
+    </script>
   </body>
 </html>
