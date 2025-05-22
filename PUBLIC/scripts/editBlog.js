@@ -1,4 +1,17 @@
 document.addEventListener("DOMContentLoaded", async function () {
+  const numberWords = [
+    "One",
+    "Two",
+    "Three",
+    "Four",
+    "Five",
+    "Six",
+    "Seven",
+    "Eight",
+    "Nine",
+    "Ten",
+  ];
+
   // extract id from URL
   const url = window.location.href;
   const blogId = url.split("/editBlog/")[1];
@@ -49,7 +62,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           const newImageUrl = uploadResult.secure_url;
 
           headerImagePreview.src = newImageUrl;
-          blogData.headerImage = newImageUrl;
+          blogData.headerImage = newImageUrl; // Update blogData for submission
         } catch (uploadError) {
           console.error("Image upload failed:", uploadError);
         }
@@ -57,9 +70,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     const sectionsContainer = document.querySelector(".sections");
-    sectionsContainer.innerHTML = "";
+    sectionsContainer.innerHTML = ""; // Clear existing sections before rendering
 
-    // add both heading and content into a section
     const sections = [];
     let currentSection = { heading: "Untitled Section", content: "" };
 
@@ -77,7 +89,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     });
 
-    // redundant empty section check
     if (
       currentSection.heading !== "Untitled Section" ||
       currentSection.content !== ""
@@ -85,15 +96,16 @@ document.addEventListener("DOMContentLoaded", async function () {
       sections.push(currentSection);
     }
 
-    // render sections
     sections.forEach((section, index) => {
       const sectionElement = document.createElement("div");
       sectionElement.classList.add("section");
+      // Use index + 1 for section numbering and IDs to match original logic
+      const sectionDisplayIndex = index + 1; 
       sectionElement.innerHTML = `
           <details ${index === 0 ? "open" : ""}>
-              <summary>Section ${index + 1}:</summary>
-              <label for="sectionTitle${index + 1}">Section Title:</label>
-              <input type="text" id="sectionTitle${index + 1}" name="sectionTitle[]" value="${section.heading}">
+              <summary>Section ${sectionDisplayIndex}:</summary>
+              <label for="sectionTitle${sectionDisplayIndex}">Section Title:</label>
+              <input type="text" id="sectionTitle${sectionDisplayIndex}" name="sectionTitle[]" value="${section.heading}">
               
               <div class="editor-toolbar">
                   <button type="button" class="boldBtn"><img src="/assets/images/bold.svg" alt="Bold"></button>
@@ -107,22 +119,64 @@ document.addEventListener("DOMContentLoaded", async function () {
           </details>
       `;
       sectionsContainer.appendChild(sectionElement);
-
-      attachEditorToolbarListeners(sectionElement);
+      attachEditorToolbarListeners(sectionElement); 
+      attachImageUploadListener(sectionElement); 
     });
+
+    // Initialize sectionCount after rendering existing sections
+    let sectionCount = sectionsContainer.querySelectorAll('.section').length + 1;
+
+    const addSectionButton = document.getElementById("addSectionButton");
+    if (addSectionButton) {
+        addSectionButton.addEventListener("click", function () {
+            if (sectionCount > numberWords.length) {
+                if(addSectionButton.disabled !== undefined) addSectionButton.disabled = true;
+                alert("Maximum number of sections reached.");
+                return;
+            }
+
+            const newSectionElement = document.createElement("div");
+            newSectionElement.classList.add("section");
+
+            const sectionWord = (sectionCount <= numberWords.length) ? numberWords[sectionCount - 1] : sectionCount.toString();
+            newSectionElement.innerHTML = `
+                <details open>
+                    <summary>Section ${sectionWord}:</summary>
+                    <label for="sectionTitle${sectionCount}">Section Title:</label>
+                    <input type="text" id="sectionTitle${sectionCount}" name="sectionTitle[]" value=""> 
+                    
+                    <div class="editor-toolbar">
+                        <button type="button" class="boldBtn"><img src="/assets/images/bold.svg" alt="Bold"></button>
+                        <button type="button" class="italicBtn"><img src="/assets/images/italic.svg" alt="Italic" class="italic"></button>
+                        <button type="button" class="quoteBtn"><img src="/assets/images/quote.svg" alt="Quote"></button>
+                        <button type="button" class="imageBtn"><img src="/assets/images/image.svg" alt="Add Image" class="pic"></button>
+                        <input type="file" class="imageUpload" accept="image/*" style="display: none;">
+                    </div>
+                    
+                    <div class="sectionContent" contenteditable="true" placeholder="Write your content here..."></div>
+                </details>
+            `;
+
+            sectionsContainer.appendChild(newSectionElement);
+            
+            attachEditorToolbarListeners(newSectionElement);
+            attachImageUploadListener(newSectionElement); 
+
+            sectionCount++;
+        });
+    }
+
 
     function attachEditorToolbarListeners(container) {
       const boldBtns = container.querySelectorAll(".boldBtn");
       const italicBtns = container.querySelectorAll(".italicBtn");
       const quoteBtns = container.querySelectorAll(".quoteBtn");
-      const imageBtns = container.querySelectorAll(".imageBtn");
     
       function toggleStyle(tag) {
         const selection = window.getSelection();
         if (!selection.rangeCount) return;
       
         const command = tag === "bold" ? "bold" : "italic";
-        // execCommand is now on the brim of death, but i trust https://stackoverflow.com/a/70831583
         document.execCommand(command, false, null);
       }
       
@@ -145,7 +199,6 @@ document.addEventListener("DOMContentLoaded", async function () {
           const span = document.createElement("span");
           span.textContent = " — Author Name";
 
-          // existing text selection
           if (!range.collapsed) {
             const quoteText = range.toString();
             paragraph.textContent = quoteText;
@@ -153,7 +206,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             blockquote.appendChild(paragraph);
             range.deleteContents();
           } else {
-            paragraph.innerHTML = `“Enter your quote here.”`;
+            paragraph.innerHTML = `“Enter your quote here.”`; 
             paragraph.appendChild(span);
             blockquote.appendChild(paragraph);
           }
@@ -166,20 +219,15 @@ document.addEventListener("DOMContentLoaded", async function () {
           selection.addRange(range);
         });
       });
-
-      imageBtns.forEach((btn) => {
-        const section = btn.closest(".section");
-        attachImageUploadListener(section);
-      });
     }
 
-    function attachImageUploadListener(section) {
+    function attachImageUploadListener(section) { 
       const imageBtn = section.querySelector(".imageBtn");
-      const imageUpload = section.querySelector(".imageUpload");
+      const imageUpload = section.querySelector(".imageUpload"); 
     
       if (imageBtn && imageUpload) {
         imageBtn.addEventListener("click", () => {
-          imageUpload.click();
+          imageUpload.click(); 
         });
     
         imageUpload.addEventListener("change", (event) => {
@@ -210,7 +258,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     }
     
-    // edited form submission
     const blogForm = document.getElementById("blogForm");
     const saveButton = document.getElementById("submitForm");
     const uploadContainer = document.querySelector(".pgr-btn");
@@ -227,19 +274,12 @@ document.addEventListener("DOMContentLoaded", async function () {
       const description = document.getElementById("description").value;
       const headerImageInput = document.getElementById("headerImage");
 
-      const formData = new FormData();
-      formData.append("file", headerImageInput.files[0]);
-      formData.append("upload_preset", "myuploadpreset");
-
-      // check if a new headerImage is uploaded
       if (headerImageInput.files.length > 0) {
-        const formData = new FormData();
+        const formData = new FormData(); 
         formData.append("file", headerImageInput.files[0]);
         formData.append("upload_preset", "myuploadpreset");
       
         const xhr = new XMLHttpRequest();
-
-        // track image upload progress using 80% of the progress bar
         xhr.upload.addEventListener("progress", function (event) {
           if (event.lengthComputable) {
             const percentComplete = Math.round((event.loaded / event.total) * 80);
@@ -250,7 +290,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         xhr.onreadystatechange = function () {
           if (xhr.readyState === 4 && xhr.status === 200) {
-            // get uploaded image URL
             const headerImageData = JSON.parse(xhr.responseText);
             const headerImageUrl = headerImageData.secure_url;
             submitBlogContent(headerImageUrl, title, description);
@@ -260,28 +299,19 @@ document.addEventListener("DOMContentLoaded", async function () {
             uploadContainer.style.display = "none";
           }
         };
-
-        // upload image request
-        xhr.open(
-          "POST",
-          "https://api.cloudinary.com/v1_1/dxjeykfd8/image/upload",
-          true
-        );
+        xhr.open("POST", "https://api.cloudinary.com/v1_1/dxjeykfd8/image/upload", true);
         xhr.send(formData);
       } else {
-        // use existing headerImage if no new image is uploadeded
         submitBlogContent(blogData.headerImage, title, description);
       }
     });
 
     function submitBlogContent(headerImageUrl, title, description) {
-      const sections = document.querySelectorAll(".section");
+      const sections = document.querySelectorAll(".sections .section"); 
       const content = [];
 
       sections.forEach((section, index) => {
-        const sectionTitleInput = section.querySelector(
-          `input[name="sectionTitle[]"]`
-        );
+        const sectionTitleInput = section.querySelector(`input[name="sectionTitle[]"]`);
         const sectionContentDiv = section.querySelector(".sectionContent");
 
         if (sectionTitleInput && sectionContentDiv) {
@@ -292,7 +322,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             type: "heading",
             level: 2,
             text: sectionTitle,
-            id: `section-${index + 1}`,
+            id: `section-${index + 1}`, 
           });
           content.push({
             type: "text",
@@ -301,7 +331,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
       });
 
-      const blogData = {
+      const updatedBlogData = { 
         title: title,
         description: description,
         headerImage: headerImageUrl,
@@ -314,15 +344,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         content: content,
       };
 
-      console.log("sent blog data:", blogData);
+      console.log("sent blog data:", updatedBlogData);
       
       const xhr = new XMLHttpRequest();
-
-      // track blog submission progress using the remaining 20% of the progress bar
       xhr.upload.addEventListener("progress", function (event) {
         if (event.lengthComputable) {
-          const percentComplete =
-            80 + Math.round((event.loaded / event.total) * 20);
+          const percentComplete = 80 + Math.round((event.loaded / event.total) * 20);
           progressBar.style.width = percentComplete + "%";
           progressText.textContent = `${percentComplete}%`;
         }
@@ -334,28 +361,26 @@ document.addEventListener("DOMContentLoaded", async function () {
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 201)) {
           console.log("Blog post updated:", xhr.responseText);
-          // get blog id from the response and redirect to the blog
-          const response = JSON.parse(xhr.responseText);
-          const blogId = response._id;
+          const responseData = JSON.parse(xhr.responseText); 
+          const returnedBlogId = responseData._id;
 
-          if (blogId) {
-            window.location.href = `/blog/${blogId}`;
+          if (returnedBlogId) { 
+            window.location.href = `/blog/${returnedBlogId}`;
           } else {
             console.error("blogId not found in response.");
           }
-
           progressBar.style.width = "100%";
         } else if (xhr.readyState === 4 && xhr.status !== 200) {
           console.error("Error updating blog post:", xhr.responseText);
-          // show save btn again in case of error
           saveButton.style.display = "block";
           uploadContainer.style.display = "none";
         }
       };
-
-      xhr.send(JSON.stringify(blogData));
+      xhr.send(JSON.stringify(updatedBlogData));
     }
   } catch (error) {
     console.error(error);
+    const sectionsContainer = document.querySelector(".sections");
+    if(sectionsContainer) sectionsContainer.innerHTML = "<p>Error loading blog editor. Please try refreshing.</p>";
   }
 });
