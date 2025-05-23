@@ -21,13 +21,16 @@ document.addEventListener("DOMContentLoaded", async function () {
       validateAdminAccess()
     ]);
     
-    updatePageMetadata(blogData);
+    updatePageMetadata(blogData); // This will now handle its own skeleton for header image
     
     renderSidebar(blogData.sidebarLinks, sidebarFragment);
     renderContent(blogData.content, contentFragment);
     
     sidebarLinks.appendChild(sidebarFragment);
     contentContainer.appendChild(contentFragment);
+    
+    // Add .content-loaded to body to hide skeletons and show actual content
+    document.body.classList.add("content-loaded");
     
     // config edit/delete buttons based on auth
     setupAdminButtons(isAdmin, blogId, editButton, deleteButton);
@@ -36,10 +39,26 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.log(`Blog loaded in ${(performance.now() - perfStart).toFixed(2)}ms`);
     
   } catch (error) {
+    // Explicitly hide all skeleton elements on error
+    const skeletons = document.querySelectorAll('.skeleton');
+    skeletons.forEach(skeleton => {
+        skeleton.style.display = 'none';
+    });
+    // Ensure actual content containers are visible for error messages
+    document.getElementById("blog-title").style.visibility = 'visible';
+    document.getElementById("blog-description").style.visibility = 'visible';
+    if (contentContainer) { // Check if contentContainer is defined
+        contentContainer.style.visibility = 'visible'; 
+        contentContainer.textContent = "Error loading blog post...";
+    } else {
+        // Fallback if contentContainer itself is null
+        document.body.innerHTML += "<p>Error loading blog post...</p>";
+    }
+    
     console.error("Error loading blog:", error);
-    contentContainer.textContent = "Error loading blog post...";
-    editButton.style.display = "none";
-    deleteButton.style.display = "none";
+    // editButton and deleteButton might be null if the DOM didn't load fully, so check.
+    if (editButton) editButton.style.display = "none";
+    if (deleteButton) deleteButton.style.display = "none";
   }
 });
 
@@ -62,18 +81,37 @@ function updatePageMetadata(blogData) {
   const headerImage = document.getElementById("header-image");
   const img = new Image();
   img.onload = function() {
-    // set AR based on actual image dimensions
     headerImage.style.aspectRatio = `${this.width}/${this.height}`;
     headerImage.src = blogData.headerImage;
+    // Hide skeleton for header image specifically *after* it's loaded
+    const headerImageSkeleton = document.querySelector('.skeleton-header-image');
+    if (headerImageSkeleton) {
+        headerImageSkeleton.style.display = 'none';
+    }
+    headerImage.style.visibility = 'visible'; // Make actual image visible
+  };
+  img.onerror = function() {
+    // Handle error loading image - hide skeleton, maybe show placeholder or error
+    const headerImageSkeleton = document.querySelector('.skeleton-header-image');
+    if (headerImageSkeleton) {
+        headerImageSkeleton.style.display = 'none';
+    }
+    headerImage.style.visibility = 'visible'; // Make alt text visible
+    // Optionally set a fallback image or style
+    console.error("Failed to load header image.");
   };
   img.src = blogData.headerImage;
   
-  // update page title dynamically
   document.title = `${blogData.title} — bitbytebit.hub`;
 }
 
 function renderSidebar(links, fragment) {
-  if (!links || !links.length) return;
+  if (!links || !links.length) {
+    // If no links, hide sidebar skeleton too (if it wasn't part of .content-loaded)
+    const sidebarSkeletons = document.querySelectorAll('#sidebar-links .skeleton');
+    sidebarSkeletons.forEach(sk => sk.style.display = 'none');
+    return;
+  }
   
   links.forEach((link) => {
     const li = document.createElement("li");
@@ -88,9 +126,13 @@ function renderSidebar(links, fragment) {
 }
 
 function renderContent(content, fragment) {
-  if (!content || !content.length) return;
+  if (!content || !content.length) {
+     // If no content, hide content skeleton too
+    const contentSkeletons = document.querySelectorAll('#content-container .skeleton');
+    contentSkeletons.forEach(sk => sk.style.display = 'none');
+    return;
+  }
   
-  // create content elements in one batch
   content.forEach((item) => {
     let element;
     
@@ -101,25 +143,21 @@ function renderContent(content, fragment) {
         element.id = item.id;
         element.classList.add("section-heading");
         break;
-        
       case "text":
         element = document.createElement("p");
         element.innerHTML = item.content;
         break;
-        
       case "image":
         element = document.createElement("img");
         element.src = item.src;
         element.alt = item.alt || "blog image";
-        element.loading = "lazy"; // defer loading of content images
+        element.loading = "lazy";
         element.decoding = "async";
         break;
-        
       case "quote":
         element = document.createElement("blockquote");
         const p = document.createElement("p");
         p.textContent = item.text;
-        
         const span = document.createElement("span");
         span.textContent = `— ${item.author}`;
         p.appendChild(span);
@@ -136,8 +174,8 @@ function renderContent(content, fragment) {
 async function validateAdminAccess() {
   try {
     const token = localStorage.getItem("authToken");
+    if (!token) return false; // No token, not an admin for this purpose
     
-    // verify token with timeout to prevent hanging
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 3000);
     
@@ -151,11 +189,11 @@ async function validateAdminAccess() {
     clearTimeout(timeoutId);
 
     if (!validateToken.ok){
-      localStorage.removeItem("authToken");
+      localStorage.removeItem("authToken"); // Clean up invalid token
       return false;
     } 
-    
-    return true;
+    const response = await validateToken.json();
+    return response.valid; // Assuming the API returns { valid: true/false }
   } catch (error) {
     console.warn("Admin validation failed:", error.message);
     return false;
@@ -163,6 +201,8 @@ async function validateAdminAccess() {
 }
 
 function setupAdminButtons(isAdmin, blogId, editButton, deleteButton) {
+  if (!editButton || !deleteButton) return; // Ensure buttons exist
+
   if (!isAdmin) {
     editButton.style.display = "none";
     deleteButton.style.display = "none";
@@ -176,8 +216,8 @@ function setupAdminButtons(isAdmin, blogId, editButton, deleteButton) {
     window.location.href = `/editBlog/${blogId}`;
   });
   
-  
   deleteButton.addEventListener("click", async () => {
+    if (!confirm("Are you sure you want to delete this blog post?")) return;
     try {
       const token = localStorage.getItem("authToken");
       if (!token) throw new Error("No auth token found");

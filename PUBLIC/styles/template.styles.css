@@ -240,3 +240,90 @@ blockquote span {
     margin-bottom: 5px;
   }
 }
+
+
+/* Skeleton Loader Styles */
+.skeleton {
+  background-color: #e0e0e0; /* Light grey base for skeleton */
+  border-radius: 4px;
+  margin-bottom: 10px; /* Default margin, can be overridden */
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #e0e0e0;
+  }
+  50% {
+    background-color: #d0d0d0; /* Slightly darker grey for pulse effect */
+  }
+  100% {
+    background-color: #e0e0e0;
+  }
+}
+
+.skeleton-title {
+  width: 70%;
+  height: 36px; /* Approx height of an h1 */
+  margin-top: 20px; /* Align with where actual title would be */
+  margin-bottom: 15px;
+}
+
+.skeleton-description-line {
+  width: 90%;
+  height: 16px; /* Approx height of a line of text */
+  margin-bottom: 8px;
+}
+.skeleton-description-line:last-child {
+  width: 80%; /* Make last line a bit shorter */
+}
+
+.skeleton-header-image {
+  width: 100%;
+  height: 0; /* Height will be set by aspect-ratio */
+  padding-bottom: 56.25%; /* For 16:9 aspect ratio, matching the img styling */
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.skeleton-sidebar-item {
+  width: 80%;
+  height: 24px;
+  margin-bottom: 12px;
+}
+
+.skeleton-content-heading {
+  width: 60%;
+  height: 28px; /* Approx height of an h2/h3 */
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+.skeleton-content-line {
+  width: 100%;
+  height: 16px;
+  margin-bottom: 8px;
+}
+.skeleton-content-line:last-of-type {
+   width: 90%; /* Make last line a bit shorter */
+}
+
+
+/* Initially hide actual content elements that will be populated by JS */
+#blog-title,
+#blog-description,
+#header-image {
+  visibility: hidden; 
+}
+
+/* Class to be added by JavaScript to show content and hide skeletons */
+.content-loaded #blog-title,
+.content-loaded #blog-description,
+.content-loaded #header-image {
+  visibility: visible;
+}
+
+/* When content is loaded, hide all skeleton elements */
+.content-loaded .skeleton {
+  display: none !important;
+}

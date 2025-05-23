@@ -1,0 +1,242 @@
+@font-face {
+  font-family: "Lota Grotesque Semi Bold";
+  src: url("../assets/fonts/LosAndesLotaGrotesqueSemiBold.otf")
+    format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lota Grotesque Semi Bold It";
+  src: url("../assets/fonts/LosAndeLotaGrotesqueSemiBoldItalic.otf")
+    format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --primary: #a7d406;
+  --secondary: #fffef0;
+  --dark: #000;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth !important;
+}
+
+body,
+html {
+  font-family: "Saira Semi Condensed", "Poppins", sans-serif;
+  background-color: var(--dark);
+  color: var(--secondary);
+  padding-top: 30px;
+}
+
+::-webkit-scrollbar {
+  background-color: #101010;
+  width: 4px;
+  height: 3px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--primary) !important;
+  cursor: pointer;
+}
+::-moz-range-track {
+  background-color: #101010;
+}
+
+.floating-btn {
+  background-color: var(--dark);
+  transition: transform 0.2s ease;
+}
+
+.edit-btn {
+  cursor: pointer;
+  position: fixed;
+  top: 90px;
+  right: 55px;
+  z-index: 99;
+}
+
+.del-btn {
+  cursor: pointer;
+  position: fixed;
+  top: 90px;
+  right: 20px;
+  z-index: 99;
+}
+
+.header {
+  padding: 3%;
+  min-height: 300px;
+}
+.header h1 {
+  font-family: "Lota Grotesque Semi Bold";
+  font-size: 3.5rem;
+}
+.header p {
+  padding-top: 15px;
+  font-size: 1.3rem;
+}
+.header img {
+  width: 100%;
+  padding-top: 20px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.sidebar {
+  font-family: "Lota Grotesque Semi Bold";
+  font-size: 1.2rem;
+  width: 40%;
+  padding: 3%;
+  border-right: 1px solid #444;
+  position: sticky;
+  top: 60px;
+  height: calc(100vh - 30px);
+  overflow-y: auto;
+}
+
+.sidebar ul {
+  list-style-type: none;
+}
+
+.sidebar li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #444;
+}
+
+.sidebar li a {
+  text-decoration: none;
+  padding: 5px 0;
+  color: var(--secondary);
+  flex-grow: 1;
+}
+
+.sidebar li .icon {
+  color: var(--secondary);
+  width: 20px;
+  height: 20px;
+}
+
+.sidebar li:hover,
+.sidebar li.active a {
+  background-color: var(--primary);
+}
+
+.section-heading {
+  position: relative;
+}
+
+.section-heading::before {
+  content: "";
+  display: block;
+  height: 80px;
+  margin-top: -80px;
+  visibility: hidden;
+}
+
+.content {
+  width: 60%;
+  padding: 3%;
+  color: var(--secondary);
+}
+
+.content h2 {
+  font-family: "Lota Grotesque Semi Bold";
+  margin-bottom: 10px;
+  font-size: 2rem;
+}
+
+.content p {
+  margin-bottom: 20px;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.content img {
+  padding: 0;
+  max-width: 100%;
+  height: auto;
+}
+
+blockquote {
+  margin: 2em 0;
+  padding-left: 1em;
+  border-left: 3px solid var(--primary);
+}
+
+blockquote p {
+  font-family: var(--header-font);
+  font-weight: 600;
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  color: var(--quote-color);
+  text-align: left !important;
+  line-height: 1.4;
+}
+
+blockquote span {
+  margin-top: 0.8em;
+  font-family: var(--body-font);
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  display: block;
+  color: var(--quote-attribution);
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  body{
+    padding-top: 70px;
+  }
+  .header h1{
+    font-size: 2.3rem;
+  }
+  .header p {
+    padding-top: 10px;
+  }
+  .header img {
+    padding-top: 10px;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #444;
+    position: relative;
+    margin-bottom: 10px;
+    top: 0;
+    height: auto;
+    overflow-y: visible;
+  }
+
+  .icon {
+    content: url("../assets/images/down-arrow.svg");
+  }
+
+  .content {
+    width: 100%;
+  }
+
+  .content h2 {
+    margin-bottom: 5px;
+  }
+}
