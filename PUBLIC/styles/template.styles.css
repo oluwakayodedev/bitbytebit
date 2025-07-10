@@ -16,9 +16,9 @@
 }
 
 :root {
-  --primary: #a7d406;
-  --secondary: #fffef0;
-  --dark: #000;
+  --primary: #fabd2f;
+  --secondary: #faf1da;
+  --dark: #1b1a18;
 }
 
 * {
@@ -124,7 +124,7 @@ html {
 .sidebar li a {
   text-decoration: none;
   padding: 5px 0;
-  color: var(--secondary);
+  color: #b6aeaa;
   flex-grow: 1;
 }
 
@@ -134,9 +134,9 @@ html {
   height: 20px;
 }
 
-.sidebar li:hover,
+.sidebar li a:hover,
 .sidebar li.active a {
-  background-color: var(--primary);
+  color: var(--primary);
 }
 
 .section-heading {

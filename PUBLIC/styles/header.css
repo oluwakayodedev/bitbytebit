@@ -1,7 +1,7 @@
 :root {
-  --primary: #a7d406;
-  --secondary: #fffef0; 
-  --dark: #000;
+  --primary: #fabd2f;
+  --secondary: #faf1da; 
+  --dark: #1b1a18;
 }
 header {
   font-family: "Saira Semi Condensed";
@@ -22,11 +22,13 @@ nav #container {
   justify-content: space-between;
 }
 
-.logo h2 {
+.logo h2 a {
   color: var(--secondary);
   font-size: 1.5rem;
   font-weight: 600;
+  text-decoration: none;
 }
+
 
 .nav-icon {
   color: var(--secondary);
@@ -37,10 +39,4 @@ nav #container {
 .nav-icon:hover {
   color: var(--primary);
   transform: scale(0.96);
-}
-
-a {
-  font-size: 22px;
-  text-decoration: none;
-  color: inherit;
 }

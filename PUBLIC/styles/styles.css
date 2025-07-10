@@ -8,9 +8,9 @@
 }
 
 :root {
-  --primary: #a7d406;
-  --secondary: #fffef0; 
-  --dark: #000;
+  --primary: #fabd2f;
+  --secondary: #faf1da;
+  --dark: #1b1a18;
 }
 
 * {
@@ -173,8 +173,8 @@ main img {
   font-weight: 600;
 }
 .view-btn, .view-all {
-  background-color: #a7d406;
-  color: rgb(8, 10, 88);
+  background-color: var(--primary);
+  color: var(--dark);
   border-radius: 5px;
   padding: 10px 15px;
   font-weight: 500;
@@ -251,16 +251,25 @@ main img {
   cursor: pointer;
 }
 
-footer{
-  border-top: 2px solid #303331;
-  margin: 2% 6%;
+hr.btm-line {
+  border: none;
+  border-top: 1px solid #494541;
+  margin: 3rem auto 0;
+  width: 80%;
+}
+.btm-footer {
+  font-size: 0.875rem;
+  line-height: 1.75rem;
+  text-align: center;
+  padding: 2rem 1.5rem 4rem;
+  color: var(--secondary);
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-footer p{
-  padding-top: 10px;
-  text-align: center;
-  color: #303331;
-  font-size: small;
+.btm-footer p {
+  font-family: "Poppins";
+  margin-bottom: 1rem;
 }
 
 a {
@@ -274,7 +283,7 @@ a:hover {
 
 @media (max-width: 768px) {
   :root {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   nav {
