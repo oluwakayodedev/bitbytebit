@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   // fetch blog data using the blogId
   try {
     const response = await fetch(
-      `https://www.thebitbytebit.tech/api/blogs/${blogId}`
+      `/api/blogs/${blogId}`
     );
     if (!response.ok) {
       throw new Error("failed to fetch blog data");
@@ -191,33 +191,46 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       quoteBtns.forEach((btn) => {
         btn.addEventListener("click", () => {
+          const section = btn.closest('.section');
+          const sectionContent = section.querySelector('.sectionContent');
+        
           const selection = window.getSelection();
           if (!selection.rangeCount) return;
 
           const range = selection.getRangeAt(0);
-          const blockquote = document.createElement("blockquote");
-          const paragraph = document.createElement("p");
-          const span = document.createElement("span");
-          span.textContent = " — Author Name";
+          const commonAncestor = range.commonAncestorContainer;
 
-          if (!range.collapsed) {
-            const quoteText = range.toString();
-            paragraph.textContent = quoteText;
-            paragraph.appendChild(span);
-            blockquote.appendChild(paragraph);
-            range.deleteContents();
+          // check if selection is within the sectionContent div
+          if (sectionContent.contains(commonAncestor)) {
+            const blockquote = document.createElement("blockquote");
+            blockquote.style.padding = "10px";
+            blockquote.style.borderLeft = "4px solid #666";
+            const paragraph = document.createElement("p");
+            const span = document.createElement("span");
+            span.textContent = " — Author Name";
+            span.style.fontStyle = "italic";
+
+            if (!range.collapsed) {
+              const quoteText = range.toString();
+              paragraph.textContent = quoteText;
+              paragraph.appendChild(span);
+              blockquote.appendChild(paragraph);
+              range.deleteContents();
+            } else {
+              paragraph.innerHTML = `“Quote text goes here.”`;
+              paragraph.appendChild(span);
+              blockquote.appendChild(paragraph);
+            }
+
+            range.insertNode(blockquote);
+
+            range.setStartAfter(blockquote);
+            range.collapse(true);
+            selection.removeAllRanges();
+            selection.addRange(range);
           } else {
-            paragraph.innerHTML = `“Enter your quote here.”`; 
-            paragraph.appendChild(span);
-            blockquote.appendChild(paragraph);
+            alert("place cursor within the sectionContent area to add quote!");
           }
-
-          range.insertNode(blockquote);
-
-          range.setStartAfter(blockquote);
-          range.collapse(true);
-          selection.removeAllRanges();
-          selection.addRange(range);
         });
       });
     }

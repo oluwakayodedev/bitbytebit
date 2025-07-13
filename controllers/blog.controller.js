@@ -16,7 +16,7 @@ const getBlogById = async (req, res) => {
     const { id } = req.params;
     const blog = await Blog.findById(id);
 
-    res.set('Cache-Control', 'public, max-age=3600'); // Cache for 1 hour
+    res.set('Cache-Control', 'public, max-age=60');
 
     res.status(200).json(blog);
   } catch (error) {
