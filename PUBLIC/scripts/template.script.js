@@ -1,5 +1,3 @@
-const API_URL = "https://www.thebitbytebit.tech";
-
 document.addEventListener("DOMContentLoaded", async function () {
   // extract id from URL
   const url = window.location.href;
@@ -45,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 async function fetchBlogData(blogId) {
   const response = await fetch(
-    `${API_URL}/api/blogs/${blogId}`
+    `/api/blogs/${blogId}`
   );
   
   if (!response.ok) {
@@ -183,7 +181,7 @@ function setupAdminButtons(isAdmin, blogId, editButton, deleteButton) {
       if (!token) throw new Error("No auth token found");
       
       const response = await fetch(
-        `${API_URL}/api/blogs/${blogId}`,
+        `/api/blogs/${blogId}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` }
