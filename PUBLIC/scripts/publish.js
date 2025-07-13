@@ -67,7 +67,7 @@ document
               <button type="button" class="boldBtn"><img src="./assets/images/bold.svg" alt="Bold"></button>
               <button type="button" class="italicBtn"><img src="./assets/images/italic.svg" alt="Italic" class="italic"></button>
               <button type="button" class="quoteBtn"><img src="./assets/images/quote.svg" alt="Quote"></button>
-              <button type="button" class="imageBtn"><img src="./assets/images/image.svg" alt="Add Image" class="pic"></button>
+              <button type="button" class="imageBtn"><img src="./assets/images/image.svg" alt="Add Image" class="img"></button>
               <input type="file" class="imageUpload" accept="image/*" style="display: none;">
           </div>                            
           
@@ -112,34 +112,46 @@ function attachEditorToolbarListeners(container) {
 
   quoteBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
+      const section = btn.closest('.section');
+      const sectionContent = section.querySelector('.sectionContent');
+    
       const selection = window.getSelection();
       if (!selection.rangeCount) return;
 
       const range = selection.getRangeAt(0);
-      const blockquote = document.createElement("blockquote");
-      const paragraph = document.createElement("p");
-      const span = document.createElement("span");
-      span.textContent = " — Author Name";
+      const commonAncestor = range.commonAncestorContainer;
 
-      // existing text selection
-      if (!range.collapsed) {
-        const quoteText = range.toString();
-        paragraph.textContent = quoteText;
-        paragraph.appendChild(span);
-        blockquote.appendChild(paragraph);
-        range.deleteContents();
+      // check if selection is within the sectionContent div
+      if (sectionContent.contains(commonAncestor)) {
+        const blockquote = document.createElement("blockquote");
+        blockquote.style.padding = "10px";
+        blockquote.style.borderLeft = "4px solid #666";
+        const paragraph = document.createElement("p");
+        const span = document.createElement("span");
+        span.textContent = " — Author Name";
+        span.style.fontStyle = "italic";
+
+        if (!range.collapsed) {
+          const quoteText = range.toString();
+          paragraph.textContent = quoteText;
+          paragraph.appendChild(span);
+          blockquote.appendChild(paragraph);
+          range.deleteContents();
+        } else {
+          paragraph.innerHTML = `“Quote text goes here.”`;
+          paragraph.appendChild(span);
+          blockquote.appendChild(paragraph);
+        }
+
+        range.insertNode(blockquote);
+
+        range.setStartAfter(blockquote);
+        range.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(range);
       } else {
-        paragraph.innerHTML = `"Enter your quote here."`;
-        paragraph.appendChild(span);
-        blockquote.appendChild(paragraph);
+        alert("place cursor within the sectionContent area to add quote!");
       }
-
-      range.insertNode(blockquote);
-
-      range.setStartAfter(blockquote);
-      range.collapse(true);
-      selection.removeAllRanges();
-      selection.addRange(range);
     });
   });
 

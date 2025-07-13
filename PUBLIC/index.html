@@ -1,110 +1,124 @@
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-      <!-- preload critical res -->
-      <link rel="preload" href="./styles/styles.css" as="style">
-      <link rel="preload" href="./scripts/script.js" as="script">
-      <link rel="preload" href="./assets/fonts/LosAndesLotaGrotesqueSemiBold.otf" as="font" type="font/otf" crossorigin>
+    <!-- preload critical res -->
+    <link rel="preload" href="./styles/styles.css" as="style" />
+    <link rel="preload" href="./scripts/script.js" as="script" />
+    <link
+      rel="preload"
+      href="./assets/fonts/LosAndesLotaGrotesqueSemiBold.otf"
+      as="font"
+      type="font/otf"
+      crossorigin
+    />
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Saira+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&family=Space+Grotesk:wght@300..700&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
 
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Saira+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&family=Space+Grotesk:wght@300..700&display=swap"
-        rel="stylesheet" media="print" onload="this.media='all'"
-      />
+    <link rel="stylesheet" href="./styles/styles.css" />
+    <title>bitbytebit.hub 📚</title>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const year = document.querySelector("#yearUpd");
+        // get current year
+        const currentYr = new Date().getFullYear();
 
-      <link rel="stylesheet" href="./styles/styles.css" />
-      <title>bitbytebit.hub 📚</title>
-      <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          const year = document.querySelector("#yearUpd");
-          // get current year
-          const currentYr = new Date().getFullYear();
+        year.textContent = currentYr;
 
-          year.textContent = currentYr;
+        // signin or publish button area
+        const fixedButton = document.getElementById("fixed-button");
 
-          // signin or publish button area
-          const fixedButton = document.getElementById("fixed-button");
+        async function isUserLoggedIn() {
+          const token = localStorage.getItem("authToken");
+          if (!token) return false;
 
-          async function isUserLoggedIn() {
-            const token = localStorage.getItem("authToken");
-            if (!token) return false;
-
-            try {
-              const response = await fetch("/api/auth/verifyToken", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ token }),
-              });
-              const data = await response.json();
-              if (!data.valid) {
-                localStorage.removeItem("authToken");
-                return false;
-              }
-              return true;
-            } catch (error) {
-              console.error("Err verifying token:", error);
+          try {
+            const response = await fetch("/api/auth/verifyToken", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ token }),
+            });
+            const data = await response.json();
+            if (!data.valid) {
               localStorage.removeItem("authToken");
               return false;
             }
+            return true;
+          } catch (error) {
+            console.error("Err verifying token:", error);
+            localStorage.removeItem("authToken");
+            return false;
           }
+        }
 
-          fixedButton.addEventListener("click", async function (event) {
-            event.preventDefault();
+        fixedButton.addEventListener("click", async function (event) {
+          event.preventDefault();
 
-            const isLoggedIn = await isUserLoggedIn();
-            console.log("User logged in:", isLoggedIn);
-            if (await isUserLoggedIn()) {
-              window.location.href = "/publishBlog";
-            } else {
-              window.location.href = "/signin";
-            }
-          });
+          const isLoggedIn = await isUserLoggedIn();
+          console.log("User logged in:", isLoggedIn);
+          if (await isUserLoggedIn()) {
+            window.location.href = "/publishBlog";
+          } else {
+            window.location.href = "/signin";
+          }
         });
-      </script>
-    </head>
-    <body>
-      <header>
-        <div class="container">
-          <div class="logo">
-            <h2>bitbytebit.hub</h2>
-          </div>
-          <div class="gh-icon" id="gh-icon">
-            <a href="https://github.com/oluwakayodedev/bitbytebit" target="_blank">
-            <img src="./assets/images/github.svg" alt="Github Logo"/>
-            </a>
-          </div>
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="logo">
+          <h2><a href="/">bitbytebit.hub</a></h2>
         </div>
-      </header>
-      <main>
-        <section>
-          <div id="largearea"></div>
-        </section>
-        <section id="recent_blogs">
-          <div class="recents">
-            <h2>Read Recent Blogs</h2>
-            <a class="view-btn" href="/view-all-blog">View all posts</a>
-          </div>
-        </section>
-        <section id="grid-container"></section>
-      </main>
-      <div class="view">
-        <a class="view-all" href="/view-all-blog">View all...</a>
+        <div class="gh-icon" id="gh-icon">
+          <a
+            href="https://github.com/oluwakayodedev/bitbytebit"
+            target="_blank"
+          >
+            <img src="./assets/images/github.svg" alt="Github Logo" />
+          </a>
+        </div>
       </div>
-      <div class="fixed-buttons">
-        <a id="fixed-button" href="#">
-          <img src="./assets/images/add.svg" class="floating-menu"/>
-        </a>
-      </div>
-      <footer>
-        <p>©<span id="yearUpd"></span> bitbytebit.inc All Rights Reserved</p>
-      </footer>
-    </body>
-    <script src="./scripts/script.js" defer></script>
-  </html>
+    </header>
+    <main>
+      <section>
+        <div id="largearea"></div>
+      </section>
+      <section id="recent_blogs">
+        <div class="recents">
+          <h2>Read Recent Blogs</h2>
+          <a class="view-btn" href="/view-all-blog">View all posts</a>
+        </div>
+      </section>
+      <section id="grid-container"></section>
+    </main>
+    <div class="view">
+      <a class="view-all" href="/view-all-blog">View all...</a>
+    </div>
+    <div class="fixed-buttons">
+      <a id="fixed-button" href="#">
+        <img src="./assets/images/add.svg" class="floating-menu" />
+      </a>
+    </div>
+    <hr class="btm-line" />
+
+    <footer class="btm-footer">
+      <p>
+        ©<span id="yearUpd"></span> <b>bitbytebit.tech</b> | All Rights Reserved.
+      </p>
+    </footer>
+  </body>
+  <script src="./scripts/script.js" defer></script>
+</html>

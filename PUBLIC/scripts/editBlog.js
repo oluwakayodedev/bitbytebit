@@ -177,6 +177,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (!selection.rangeCount) return;
       
         const command = tag === "bold" ? "bold" : "italic";
+        // execCommand is now on the brim of death, but i trust https://stackoverflow.com/a/70831583
         document.execCommand(command, false, null);
       }
       

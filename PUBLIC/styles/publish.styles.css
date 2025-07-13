@@ -15,9 +15,9 @@
 }
 
 :root {
-  --primary: #a7d406;
-  --secondary: #fffef0;
-  --dark: #000;
+  --primary: #fabd2f;
+  --secondary: #faf1da;
+  --dark: #1b1a18;
   --input-border: #3e3e3e;
   --text-light: #eeeeee;
   --button-hover-bg: #0056b3;
